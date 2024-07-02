@@ -1,8 +1,16 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Lato } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+  subsets: ["latin"]
+});
+const lato = Lato({
+  subsets: ["latin"],
+  weight: ['400'],
+  variable: '--font-lato'
+});
+
 
 export const metadata: Metadata = {
   title: "Viridis",
@@ -17,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={inter.className}
+        className={`${inter.className} ${lato.variable}`}
       >
         {children}
       </body>
