@@ -3,19 +3,13 @@ import { Input } from '@/components/ui/input'
 import { Search } from 'lucide-react'
 import Image from 'next/image'
 import React from 'react'
+import MobileNavbar from '../MobileNavbar'
 
 const Navbar = () => {
     return (
         <nav className='flex flex-col gap-5 p-6 lg:px-7 lg:py-5 xl:px-10 w-full border-b border-gray-200'>
             <div className='flex justify-between items-center '>
-                <Image
-                    src="/images/hamburger-menu.svg"
-                    alt="hamburger menu"
-                    width={14}
-                    height={18}
-                    className='cursor-pointer lg:hidden'
-                />
-
+                <MobileNavbar />
                 <div>
                     <h1 className='text-[#343C6A] font-semibold text-xl lg:text-2xl xl:text-3xl'>Overview</h1>
                 </div>
