@@ -11,12 +11,14 @@ import CustomInput from './CustomInput'
 import { authFormSchema } from '@/lib/utils'
 import { CreditCard, Loader2 } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { signIn } from '@/lib/actions/user.actions'
 
 const AuthForm = ({ type }: { type: string }) => {
-
+    const router = useRouter()
     const [isLoading, setIsLoading] = useState(false)
 
-    const formSchema = authFormSchema(type);
+    const formSchema = authFormSchema(type)
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -27,8 +29,25 @@ const AuthForm = ({ type }: { type: string }) => {
     })
 
     // TODO: CONNECT TO DATABASE
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values)
+    const onSubmit = async (data: z.infer<typeof formSchema>) => {
+        console.log(data)
+        setIsLoading(true)
+        try {
+
+            if (type === 'sign-in') {
+                const response = await signIn({
+                    email: data.email,
+                    password: data.password
+                })
+
+                if (response) router.push('/')
+            }
+
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setIsLoading(false)
+        }
     }
 
     return (

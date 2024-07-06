@@ -2,10 +2,28 @@ import BankCard from '@/components/BankCard'
 import TotalBalanceChart from '@/components/TotalBalanceChart'
 import TransactionsTable from '@/components/TransactionsTable'
 import MasterCardLogo from '@/components/icons/master-card-logo'
+import { getAccount, getAccounts } from '@/lib/actions/bank.actions'
+import { getLoggedInUser } from '@/lib/actions/user.actions'
 import Image from 'next/image'
 import React from 'react'
 
-const Dashboard = () => {
+const Dashboard = async ({ searchParams: { id, page } }: SearchParamProps) => {
+    const currentPage = Number(page as string) || 1
+    const loggedIn = await getLoggedInUser()
+    const accounts = await getAccounts({ userId: loggedIn.$id })
+
+    if (!accounts) return
+
+    const accountsData = accounts?.data
+    const appwriteItemId = (id as string) || accountsData[0]?.appwriteItemId
+
+    const account = await getAccount({ appwriteItemId })
+
+    // console.log({
+    //     accountsData,
+    //     account
+    // })
+
     return (
         <section className='no-scrollbar bg-[#F5F7FA] flex w-full flex-row max-xl:max-h-screen max-xl:overflow-y-scroll'>
             <div className='no-scrollbar flex w-full flex-col gap-8 px-6 xl:px-10 py-5 xl:max-h-screen xl:overflow-y-scroll'>

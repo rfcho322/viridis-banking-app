@@ -1,14 +1,23 @@
 'use client'
 import { sidebarLinks } from '@/constants'
 import { cn } from '@/lib/utils'
-import { CreditCard } from 'lucide-react'
+import { CreditCard, LogOut } from 'lucide-react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import React from 'react'
+import { logOutAccount } from '@/lib/actions/user.actions'
 
 const Sidebar = () => {
 
+    const router = useRouter()
     const pathName = usePathname();
+
+    const handleLogOut = async () => {
+        const loggedOut = await logOutAccount()
+
+        console.log('isLoggedOut: ', loggedOut)
+        if (loggedOut) router.push('sign-in')
+    }
 
     return (
         <section className='sticky custom-scrollbar overflow-y-auto left-0 top-0 flex flex-col h-screen justify-between w-fit border-r border-gray-200 bg-white text-white max-lg:hidden sm:pb-4 sm:pr-4 lg:pb-6 lg:pr-6 lg:w-[300px] group'>
@@ -45,6 +54,13 @@ const Sidebar = () => {
                         </Link>
                     )
                 })}
+                <div
+                    onClick={handleLogOut}
+                    className='bg-green-500 flex justify-center items-center cursor-pointer'
+                >
+
+                    <LogOut /> Logout
+                </div>
             </nav>
         </section>
     )
