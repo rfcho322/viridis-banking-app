@@ -173,7 +173,7 @@ declare interface PaginationProps {
   totalPages: number;
 }
 
-declare interface PlaidLinkProps {
+declare interface PlaidButtonProps {
   user: User;
   variant?: "primary" | "ghost";
   dwollaCustomerId?: string;
