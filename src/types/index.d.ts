@@ -203,7 +203,7 @@ declare interface BankTabItemProps {
   appwriteItemId?: string;
 }
 
-declare interface TotalBalanceBoxProps {
+declare interface TotalBalanceChartProps {
   accounts: Account[];
   totalBanks: number;
   totalCurrentBalance: number;
@@ -214,9 +214,8 @@ declare interface FooterProps {
   type?: "mobile" | "desktop";
 }
 
-declare interface RightSidebarProps {
+declare interface BankCardWidgetProps {
   user: User;
-  transactions: Transaction[];
   banks: Bank[] & Account[];
 }
 

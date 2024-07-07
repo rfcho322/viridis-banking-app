@@ -1,10 +1,8 @@
-import BankCard from '@/components/BankCard'
+import BankCardWidget from '@/components/BankCardWidget'
 import TotalBalanceChart from '@/components/TotalBalanceChart'
 import TransactionsTable from '@/components/TransactionsTable'
-import MasterCardLogo from '@/components/icons/master-card-logo'
 import { getAccount, getAccounts } from '@/lib/actions/bank.actions'
 import { getLoggedInUser } from '@/lib/actions/user.actions'
-import Image from 'next/image'
 import React from 'react'
 
 const Dashboard = async ({ searchParams: { id, page } }: SearchParamProps) => {
@@ -19,10 +17,10 @@ const Dashboard = async ({ searchParams: { id, page } }: SearchParamProps) => {
 
     const account = await getAccount({ appwriteItemId })
 
-    // console.log({
-    //     accountsData,
-    //     account
-    // })
+    console.log({
+        accountsData,
+        account
+    })
 
     return (
         <section className='no-scrollbar bg-[#F5F7FA] flex w-full flex-row max-xl:max-h-screen max-xl:overflow-y-scroll'>
@@ -33,59 +31,17 @@ const Dashboard = async ({ searchParams: { id, page } }: SearchParamProps) => {
                             <h2 className='text-[22px] font-semibold'>My Cards</h2>
                             <p className='text-[17px] font-semibold'>See All</p>
                         </div>
-                        <div className='flex gap-[20px] lg:gap-[25px] xl:gap-[30px] no-scrollbar overflow-x-scroll'>
-
-                            <BankCard />
-
-                            <div className='w-full border border-white rounded-[20px]'>
-                                <div className='relative flex h-[119px] xl:h-[165px] w-[265px] sm:w-full justify-between rounded-t-[20px] bg-white backdrop-blur-[6px]'>
-                                    <div className='w-full flex flex-col gap-6 xl:gap-8 p-5 xl:p-[26px]'>
-                                        <div className='flex justify-between items-center'>
-                                            <div className='text-[#343C6A]'>
-                                                <p className='text-[11px] xl:text-xs text-[#718EBF]'>Balance</p>
-                                                <p className='text-base font-semibold xl:text-xl font-lato'>$3,211</p>
-                                            </div>
-                                            <div className='relative size-[29px] xl:size-[35px]'>
-                                                <Image
-                                                    src='/images/chip-card-black.svg'
-                                                    alt="chip card"
-                                                    fill
-                                                    className='object-contain'
-                                                />
-                                            </div>
-                                        </div>
-                                        <article className='flex justify-between'>
-                                            <div className='flex flex-col leading-tight'>
-                                                <p className='uppercase text-[10px] xl:text-xs text-[#718EBF]'>card holder</p>
-                                                <p className='font-lato text-[13px] xl:text-base text-[#343C6A]'>Desert Moon</p>
-                                            </div>
-                                            <div className='flex flex-col leading-tight'>
-                                                <p className='uppercase text-[10px] xl:text-xs text-[#718EBF]'>valid thru</p>
-                                                <p className='font-lato text-[13px] xl:text-base text-[#343C6A]'>03/22</p>
-                                            </div>
-                                        </article>
-                                    </div>
-                                    <Image
-                                        src="/images/bg-card-lines-black.svg"
-                                        fill
-                                        alt='lines'
-                                        className='object-cover opacity-20'
-                                    />
-                                </div>
-                                <div className='h-[51px] xl:h-[70px] bg-white backdrop-blur-[6px] w-[265px] sm:w-full rounded-b-[20px]'>
-                                    <div className='h-full border-t border-gray-200 flex justify-between items-center px-[26px]'>
-                                        <div>
-                                            <p className='font-lato min-w-[150px] text-[15px] xl:text-[18px] 2xl:text-[22px] text-[#343C6A]'>3211 ●●●● ●●●● 3211</p>
-                                        </div>
-                                        <MasterCardLogo fillColor="fill-gray-500" />
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
+                        <BankCardWidget
+                            user={loggedIn}
+                            banks={accountsData?.slice(0, 2)}
+                        />
                     </div>
                     {/* TODO RECENT TRANSACTIONS TABLE AND DONUT CHART */}
-                    <TotalBalanceChart />
+                    <TotalBalanceChart
+                        accounts={accountsData}
+                        totalBanks={accounts?.totalBanks}
+                        totalCurrentBalance={accounts?.totalCurrentBalance}
+                    />
 
                     <div className='col-span-3 md:col-span-2 flex flex-col gap-5'>
                         <div className='flex items-center justify-between'>
