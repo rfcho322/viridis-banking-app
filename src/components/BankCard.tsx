@@ -5,7 +5,7 @@ import { formatAmount } from "@/lib/utils"
 const BankCard = ({ account, userName, showBalance = true }: CreditCardProps) => {
     return (
         <div className='w-full border border-white rounded-[20px]'>
-            <div className='relative flex h-[119px] xl:h-[165px] w-[265px] sm:w-full justify-between rounded-t-[20px] bg-bank-gradient backdrop-blur-[6px]'>
+            <div className='relative flex h-[119px] xl:h-[165px] w-full sm:max-w-[265px] md:max-w-[231px] lg:max-w-[265px] xl:max-w-[300px] 2xl:max-w-[375px] justify-between rounded-t-[20px] bg-bank-gradient backdrop-blur-[6px]'>
                 <div className='w-full flex flex-col gap-6 xl:gap-8 p-5 xl:p-[26px]'>
                     <div className='flex justify-between items-center'>
                         <div className='text-white'>
@@ -47,7 +47,7 @@ const BankCard = ({ account, userName, showBalance = true }: CreditCardProps) =>
                     className='object-cover opacity-20'
                 />
             </div>
-            <div className='h-[51px] xl:h-[70px] bg-bank-gradient backdrop-blur-[6px] w-[265px] sm:w-full rounded-b-[20px]'>
+            <div className='h-[51px] xl:h-[70px] bg-bank-gradient backdrop-blur-[6px] w-full sm:max-w-[265px] md:max-w-[231px] lg:max-w-[265px] xl:max-w-[300px] 2xl:max-w-[375px] rounded-b-[20px]'>
                 <div className='h-full bg-bank-white-gradient flex justify-between items-center px-[26px]'>
                     <div>
                         <p className='font-lato min-w-[150px] text-[15px] xl:text-[18px] 2xl:text-[22px] text-white'>
@@ -64,7 +64,7 @@ const BankCard = ({ account, userName, showBalance = true }: CreditCardProps) =>
 const BankCardWhite = ({ account, userName, showBalance = true }: CreditCardProps) => {
     return (
         <div className='w-full border border-white rounded-[20px]'>
-            <div className='relative flex h-[119px] xl:h-[165px] w-[265px] sm:w-full justify-between rounded-t-[20px] bg-white backdrop-blur-[6px]'>
+            <div className='relative flex h-[119px] xl:h-[165px] w-full sm:max-w-[265px] md:max-w-[231px] lg:max-w-[265px] xl:max-w-[300px] 2xl:max-w-[375px] justify-between rounded-t-[20px] bg-white backdrop-blur-[6px]'>
                 <div className='w-full flex flex-col gap-6 xl:gap-8 p-5 xl:p-[26px]'>
                     <div className='flex justify-between items-center'>
                         <div className='text-[#343C6A]'>
@@ -106,7 +106,7 @@ const BankCardWhite = ({ account, userName, showBalance = true }: CreditCardProp
                     className='object-cover opacity-20'
                 />
             </div>
-            <div className='h-[51px] xl:h-[70px] bg-white backdrop-blur-[6px] w-[265px] sm:w-full rounded-b-[20px]'>
+            <div className='h-[51px] xl:h-[70px] bg-white backdrop-blur-[6px] w-full sm:max-w-[265px] md:max-w-[231px] lg:max-w-[265px] xl:max-w-[300px] 2xl:max-w-[375px] rounded-b-[20px]'>
                 <div className='h-full border-t border-gray-200 flex justify-between items-center px-[26px]'>
                     <div>
                         <p className='font-lato min-w-[150px] text-[15px] xl:text-[18px] 2xl:text-[22px] text-[#343C6A]'>

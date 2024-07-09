@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} ${lato.variable}`}
+        className={`${inter.className} ${lato.variable} overflow-hidden`}
       >
         {children}
       </body>

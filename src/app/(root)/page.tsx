@@ -1,9 +1,10 @@
 import BankCardWidget from '@/components/BankCardWidget'
 import TotalBalanceChart from '@/components/TotalBalanceChart'
-import TransactionsTable from '@/components/TransactionsTable'
 import { getAccount, getAccounts } from '@/lib/actions/bank.actions'
 import { getLoggedInUser } from '@/lib/actions/user.actions'
 import React from 'react'
+import RecentTransactions from '@/components/RecentTransactions'
+
 
 const Dashboard = async ({ searchParams: { id, page } }: SearchParamProps) => {
     const currentPage = Number(page as string) || 1
@@ -23,11 +24,11 @@ const Dashboard = async ({ searchParams: { id, page } }: SearchParamProps) => {
     })
 
     return (
-        <section className='no-scrollbar bg-[#F5F7FA] flex w-full flex-row max-xl:max-h-screen max-xl:overflow-y-scroll'>
-            <div className='no-scrollbar flex w-full flex-col gap-8 px-6 xl:px-10 py-5 xl:max-h-screen xl:overflow-y-scroll'>
+        <section className='no-scrollbar bg-[#F5F7FA] flex w-full flex-row'>
+            <div className='no-scrollbar flex w-full flex-col gap-8 px-6 xl:px-10 py-5'>
                 <div className='grid grid-cols-3 gap-7'>
                     <div className='col-span-3 md:col-span-2 flex flex-col gap-5'>
-                        <div className='flex items-center justify-between'>
+                        <div className='flex items-center justify-between text-[#343C6A]'>
                             <h2 className='text-[22px] font-semibold'>My Cards</h2>
                             <p className='text-[17px] font-semibold'>See All</p>
                         </div>
@@ -36,31 +37,29 @@ const Dashboard = async ({ searchParams: { id, page } }: SearchParamProps) => {
                             banks={accountsData?.slice(0, 2)}
                         />
                     </div>
-                    {/* TODO RECENT TRANSACTIONS TABLE AND DONUT CHART */}
+
                     <TotalBalanceChart
                         accounts={accountsData}
                         totalBanks={accounts?.totalBanks}
                         totalCurrentBalance={accounts?.totalCurrentBalance}
                     />
+                </div>
 
+                <div className='grid grid-cols-3 gap-7'>
                     <div className='col-span-3 md:col-span-2 flex flex-col gap-5'>
-                        <div className='flex items-center justify-between'>
-                            <p className='text-[22px] font-semibold'>Recent Transactions</p>
-                            <p className='text-[17px] font-semibold'>See All</p>
-                        </div>
-                        <div>
-                            Tabs here
-                        </div>
-                        <div className='relative h-[170px] w-full rounded-[20px] bg-white backdrop-blur-[6px]'>
-                            <TransactionsTable />
-                        </div>
+                        <RecentTransactions
+                            accounts={accountsData}
+                            transactions={account?.transactions}
+                            appwriteItemId={appwriteItemId}
+                            page={currentPage}
+                        />
                     </div>
 
                     <div className='col-span-3 md:col-span-1 flex flex-col gap-5'>
-                        <div className='flex items-center justify-between'>
+                        <div className='flex items-center justify-between text-[#343C6A]'>
                             <p className='text-[22px] font-semibold'>Top Categories</p>
                         </div>
-                        <div className='relative flex items-center h-[170px] xl:h-[235px] w-full  rounded-[20px] bg-white backdrop-blur-[6px]'>
+                        <div className='flex items-center h-[170px] xl:h-[235px] w-full  rounded-[20px] bg-white backdrop-blur-[6px]'>
                         </div>
                     </div>
                 </div>

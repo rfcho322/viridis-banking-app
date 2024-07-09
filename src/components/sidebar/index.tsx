@@ -6,8 +6,9 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import React from 'react'
 import { logOutAccount } from '@/lib/actions/user.actions'
+import SidebarFooter from '../SidebarFooter'
 
-const Sidebar = () => {
+const Sidebar = ({ user }: SidebarProps) => {
 
     const router = useRouter()
     const pathName = usePathname();
@@ -20,7 +21,7 @@ const Sidebar = () => {
     }
 
     return (
-        <section className='sticky custom-scrollbar overflow-y-auto left-0 top-0 flex flex-col h-screen justify-between w-fit border-r border-gray-200 bg-white text-white max-lg:hidden sm:pb-4 sm:pr-4 lg:pb-6 lg:pr-6 lg:w-[300px] group'>
+        <section className='sticky custom-scrollbar overflow-y-auto left-0 top-0 flex flex-col h-screen justify-between w-fit border-r border-gray-200 bg-white text-white max-lg:hidden lg:w-[300px] group'>
             <nav className='flex flex-col'>
                 <Link
                     href="/"
@@ -54,14 +55,9 @@ const Sidebar = () => {
                         </Link>
                     )
                 })}
-                <div
-                    onClick={handleLogOut}
-                    className='bg-green-500 flex justify-center items-center cursor-pointer'
-                >
-
-                    <LogOut /> Logout
-                </div>
             </nav>
+            {/* TODO: FOOTER LAYOUT FOR CONNECT BANK AND LOGOUT MAYBE */}
+            <SidebarFooter user={user} handleLogOut={handleLogOut} />
         </section>
     )
 }

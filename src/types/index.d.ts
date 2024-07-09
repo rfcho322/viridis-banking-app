@@ -179,6 +179,11 @@ declare interface PlaidButtonProps {
   dwollaCustomerId?: string;
 }
 
+declare interface SidebarFooterProps {
+  user: User;
+  handleLogOut: () => Promise<void>;
+}
+
 // declare type User = sdk.Models.Document & {
 //   accountId: string;
 //   email: string;

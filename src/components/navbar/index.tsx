@@ -1,17 +1,29 @@
+'use client'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Input } from '@/components/ui/input'
 import { Search } from 'lucide-react'
 import Image from 'next/image'
 import React from 'react'
 import MobileNavbar from '../MobileNavbar'
+import { usePathname } from 'next/navigation'
 
 const Navbar = () => {
+
+    const pathName = usePathname()
+
     return (
         <nav className='flex flex-col gap-5 p-6 lg:px-7 lg:py-5 xl:px-10 w-full border-b border-gray-200'>
             <div className='flex justify-between items-center '>
                 <MobileNavbar />
                 <div>
-                    <h1 className='text-[#343C6A] font-semibold text-xl lg:text-2xl xl:text-3xl'>Overview</h1>
+                    <h1 className='text-[#343C6A] font-semibold text-xl lg:text-2xl xl:text-3xl'>
+                        {pathName === '/transactions'
+                            ? 'Transactions'
+                            : pathName === '/credit-cards'
+                                ? 'Credit Cards'
+                                : 'Overview'
+                        }
+                    </h1>
                 </div>
 
                 <div className='flex items-center gap-7'>

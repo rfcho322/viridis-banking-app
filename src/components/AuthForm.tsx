@@ -30,7 +30,6 @@ const AuthForm = ({ type }: { type: string }) => {
         },
     })
 
-    // TODO: CONNECT TO DATABASE
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         console.log(data)
         setIsLoading(true)
@@ -66,9 +65,10 @@ const AuthForm = ({ type }: { type: string }) => {
 
         } catch (error) {
             console.log(error)
-        } finally {
-            setIsLoading(false)
         }
+        // finally {
+        //     setIsLoading(false)
+        // }
     }
 
     return (
@@ -102,7 +102,6 @@ const AuthForm = ({ type }: { type: string }) => {
                     </h1>
                 </div>
             </header>
-            {/* TODO: ADD PLAID BUTTON TO CONNECT TO PLAID */}
             {user ? (
                 <div className='flex flex-col gap-4'>
                     {/* PLAID BUTTON */}

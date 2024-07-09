@@ -15,8 +15,8 @@ export default async function RootLayout({
 
     return (
         <main className="flex h-screen w-full">
-            <Sidebar />
-            <div className="flex size-full flex-col">
+            <Sidebar user={loggedIn} />
+            <div className="flex size-full flex-col overflow-auto">
                 <Navbar />
                 {children}
             </div>

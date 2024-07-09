@@ -8,6 +8,7 @@ import {
 import React, { useCallback, useEffect, useState } from 'react'
 import { Button } from './ui/button';
 import Image from 'next/image';
+import { CreditCard2Icon } from './icons/credit-card';
 
 const PlaidButton = ({ user, variant }: PlaidButtonProps) => {
     const router = useRouter()
@@ -66,15 +67,12 @@ const PlaidButton = ({ user, variant }: PlaidButtonProps) => {
             ) : (
                 <Button
                     onClick={() => open()}
-                    className='flex !justify-start cursor-pointer gap-3 rounded-lg !bg-transparent flex-row'
+                    className='py-6 xl:py-7 flex justify-center items-center gap-5 mt-2 bg-green-700 hover:bg-green-600 w-full'
                 >
-                    <Image
-                        src="/images/credit-card.svg"
-                        alt="credit card"
-                        width={24}
-                        height={24}
-                    />
-                    Connect Bank
+                    <CreditCard2Icon />
+                    <p className='text-white font-medium text-base xl:text-lg'>
+                        Connect Bank
+                    </p>
                 </Button>
             )}
         </>
