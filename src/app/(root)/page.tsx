@@ -4,6 +4,8 @@ import { getAccount, getAccounts } from '@/lib/actions/bank.actions'
 import { getLoggedInUser } from '@/lib/actions/user.actions'
 import React from 'react'
 import RecentTransactions from '@/components/RecentTransactions'
+import { countTransactionCategories } from '@/lib/utils'
+import Category from '@/components/Category'
 
 
 const Dashboard = async ({ searchParams: { id, page } }: SearchParamProps) => {
@@ -17,6 +19,8 @@ const Dashboard = async ({ searchParams: { id, page } }: SearchParamProps) => {
     const appwriteItemId = (id as string) || accountsData[0]?.appwriteItemId
 
     const account = await getAccount({ appwriteItemId })
+
+    const categories: CategoryCount[] = countTransactionCategories(account?.transactions)
 
     console.log({
         accountsData,
@@ -59,7 +63,13 @@ const Dashboard = async ({ searchParams: { id, page } }: SearchParamProps) => {
                         <div className='flex items-center justify-between text-[#343C6A]'>
                             <p className='text-[22px] font-semibold'>Top Categories</p>
                         </div>
-                        <div className='flex items-center h-[170px] xl:h-[235px] w-full  rounded-[20px] bg-white backdrop-blur-[6px]'>
+                        <div className='flex flex-col min-h-[170px] px-2 py-2 xl:min-h-[235px] w-full rounded-[20px] bg-white backdrop-blur-[6px]'>
+                            {categories.map((category, index) => (
+                                <Category
+                                    key={category.name}
+                                    category={category}
+                                />
+                            ))}
                         </div>
                     </div>
                 </div>

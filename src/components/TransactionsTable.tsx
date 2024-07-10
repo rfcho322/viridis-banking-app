@@ -24,9 +24,11 @@ const CategoryBadge = ({ category }: CategoryBadgeProps) => {
             <div className={cn('size-2 rounded-full', backgroundColor)} />
             <p className={cn('text-base font-medium', textColor)}>
                 {
-                    category === 'FOOD_AND_DRINK' ? 'FOOD AND DRINK' :
-                        category === 'LOAN_PAYMENTS' ? 'LOAN PAYMENTS'
-                            : category
+                    // TODO: MAYBE TRY AND CHANGE TO LOWERCASE WITH AN UPPERCASE FIRST LETTER INSTEAD OF ALL UPPERCASE
+                    category === 'FOOD_AND_DRINK' ? 'FOOD AND DRINK'
+                        : category === 'LOAN_PAYMENTS' ? 'LOAN PAYMENTS'
+                            : category === 'Transfer' ? 'TRANSFER'
+                                : category
                 }
             </p>
         </div>
@@ -50,7 +52,11 @@ const TransactionsTable = ({ transactions }: TransactionTableProps) => {
                     })}>
                         Date
                     </TableHead>
-                    <TableHead className="text-base text-[#718EBF]">Channel</TableHead>
+                    <TableHead className={cn("text-base text-[#718EBF]", {
+                        'hidden': isDashboard
+                    })}>
+                        Channel
+                    </TableHead>
                     <TableHead className="text-base text-[#718EBF] max-md:hidden">Category</TableHead>
                 </TableRow>
             </TableHeader>
@@ -67,7 +73,9 @@ const TransactionsTable = ({ transactions }: TransactionTableProps) => {
                             key={t.id}
                             className={`${isDebit || amount[0] === '-' ? 'bg-[#FFFBFA]' : 'bg-[#F6FEF9]'} !over:bg-none !border-b-DEFAULT`}
                         >
-                            <TableCell className='max-w-[175px] pl-2 pr-10'>
+                            <TableCell className={cn('max-w-[175px] pl-2 pr-10', {
+                                'max-w-[200px]': !isDashboard
+                            })}>
                                 <div className='flex items-center gap-3'>
                                     <h1 className='text-base truncate font-semibold text-[#344054]'>
                                         {removeSpecialCharacters(t.name)}
@@ -90,7 +98,9 @@ const TransactionsTable = ({ transactions }: TransactionTableProps) => {
                                 {formatDateTime(new Date(t.date)).dateTime}
                             </TableCell>
 
-                            <TableCell className='min-w-24 text-base capitalize'>
+                            <TableCell className={cn('min-w-24 text-base capitalize', {
+                                'hidden': isDashboard
+                            })}>
                                 {t.paymentChannel}
                             </TableCell>
 

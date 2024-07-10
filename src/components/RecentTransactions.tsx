@@ -46,7 +46,7 @@ const RecentTransactions = ({
                             value={account.appwriteItemId}
                             className='space-y-4'
                         >
-                            <div className='relative w-full rounded-[20px] bg-white backdrop-blur-[6px]'>
+                            <div className='relative w-full rounded-[20px] bg-white backdrop-blur-[6px] px-6 py-4'>
                                 <TransactionsTable
                                     transactions={currentTransaction}
                                 />

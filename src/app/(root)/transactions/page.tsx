@@ -1,8 +1,10 @@
+import React from 'react'
 import TransactionsTable from '@/components/TransactionsTable';
 import { TransactionsTablePagination } from '@/components/TransactionsTablePagination';
 import { getAccount, getAccounts } from '@/lib/actions/bank.actions';
 import { getLoggedInUser } from '@/lib/actions/user.actions';
-import React from 'react'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import BankTabItem from '@/components/BankTabItem';
 
 const Transactions = async ({ searchParams: { id, page } }: SearchParamProps) => {
 
@@ -27,12 +29,46 @@ const Transactions = async ({ searchParams: { id, page } }: SearchParamProps) =>
 
 
     return (
-        <div className='no-scrollbar bg-[#F5F7FA] flex w-full flex-col gap-8 px-6 xl:px-10 py-5'>
-            <div className='w-full !rounded-[20px] bg-white backdrop-blur-[6px] px-7 pt-5 pb-7'>
+        <div className='no-scrollbar bg-[#F5F7FA] flex w-full flex-col gap-7 px-6 xl:px-10 py-5'>
+            <div className='flex items-center justify-between text-[#343C6A]'>
+                <p className='text-[22px] font-semibold'>Recent Transactions</p>
+            </div>
+
+            {/* <div className='w-full !rounded-[20px] bg-white backdrop-blur-[6px] px-6 py-4'>
                 <TransactionsTable
                     transactions={currentTransactions}
                 />
-            </div>
+            </div> */}
+
+            <Tabs defaultValue={appwriteItemId} className="">
+                <TabsList className='custom-scrollbar flex gap-3 justify-start mb-6 !bg-transparent flex-nowrap'>
+                    {accountsData.map((account: Account) => (
+                        <TabsTrigger
+                            key={account.id}
+                            value={account.appwriteItemId}
+                        >
+                            <BankTabItem
+                                key={account.id}
+                                account={account}
+                                appwriteItemId={appwriteItemId}
+                            />
+                        </TabsTrigger>
+                    ))}
+                </TabsList>
+                {accountsData.map((account: Account) => (
+                    <TabsContent
+                        key={account.id}
+                        value={account.appwriteItemId}
+                        className='space-y-4'
+                    >
+                        <div className='relative w-full rounded-[20px] bg-white backdrop-blur-[6px] px-6 py-4'>
+                            <TransactionsTable
+                                transactions={currentTransactions}
+                            />
+                        </div>
+                    </TabsContent>
+                ))}
+            </Tabs>
 
             {totalPages > 1 && (
                 <div className='my-4 w-full'>
