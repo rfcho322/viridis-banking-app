@@ -29,16 +29,10 @@ const Transactions = async ({ searchParams: { id, page } }: SearchParamProps) =>
 
 
     return (
-        <div className='no-scrollbar bg-[#F5F7FA] flex w-full flex-col gap-7 px-6 xl:px-10 py-5'>
+        <section className='no-scrollbar flex w-full flex-col gap-7 px-6 xl:px-10 py-5'>
             <div className='flex items-center justify-between text-[#343C6A]'>
                 <p className='text-[22px] font-semibold'>Recent Transactions</p>
             </div>
-
-            {/* <div className='w-full !rounded-[20px] bg-white backdrop-blur-[6px] px-6 py-4'>
-                <TransactionsTable
-                    transactions={currentTransactions}
-                />
-            </div> */}
 
             <Tabs defaultValue={appwriteItemId} className="">
                 <TabsList className='custom-scrollbar flex gap-3 justify-start mb-6 !bg-transparent flex-nowrap'>
@@ -79,7 +73,7 @@ const Transactions = async ({ searchParams: { id, page } }: SearchParamProps) =>
                 </div>
 
             )}
-        </div>
+        </section>
     )
 }
 

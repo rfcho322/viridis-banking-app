@@ -20,7 +20,7 @@ const MobileNavbar = () => {
     const pathName = usePathname();
 
     return (
-        <section className="lg:hidden">
+        <section className="lg:hidden bg-white">
             <Sheet>
                 <SheetTrigger>
                     <div className='relative w-[14px] h-[18px]'>

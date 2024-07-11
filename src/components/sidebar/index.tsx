@@ -1,7 +1,7 @@
 'use client'
 import { sidebarLinks } from '@/constants'
 import { cn } from '@/lib/utils'
-import { CreditCard, LogOut } from 'lucide-react'
+import { CreditCard } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import React from 'react'

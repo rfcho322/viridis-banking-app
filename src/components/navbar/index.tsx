@@ -12,7 +12,7 @@ const Navbar = () => {
     const pathName = usePathname()
 
     return (
-        <nav className='flex flex-col gap-5 p-6 lg:px-7 lg:py-5 xl:px-10 w-full border-b border-gray-200'>
+        <nav className='flex flex-col gap-5 p-6 lg:px-7 lg:py-5 xl:px-10 w-full bg-white border-b border-gray-200'>
             <div className='flex justify-between items-center '>
                 <MobileNavbar />
                 <div>

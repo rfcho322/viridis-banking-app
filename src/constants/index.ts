@@ -1,19 +1,17 @@
 import { CreditCardIcon } from "@/components/icons/credit-card";
+import Entertainment from "@/components/icons/entertainment";
 import HomeIcon from "@/components/icons/home";
+import ShoppingBag from "@/components/icons/shopping-bag";
 import TransactionsIcon from "@/components/icons/transactions";
+import { PaymentTransfer, Transfer } from "@/components/icons/transfer";
+import Transportation from "@/components/icons/transportation";
+import Utensils from "@/components/icons/utensils";
 
 export const sidebarLinks = [
   {
-    imgURL: "/images/home.svg",
     route: "/",
     Component: HomeIcon,
     label: "Dashboard",
-  },
-  {
-    imgURL: "/images/transaction.svg",
-    route: "/transactions",
-    Component: TransactionsIcon,
-    label: "Transactions",
   },
   // {
   //   imgURL: "/images/user.svg",
@@ -28,17 +26,20 @@ export const sidebarLinks = [
   //   label: "Investments",
   // },
   {
-    imgURL: "/images/credit-card.svg",
+    route: "/transactions",
+    Component: TransactionsIcon,
+    label: "Transactions",
+  },
+  {
     route: "/credit-cards",
     Component: CreditCardIcon,
     label: "Credit Cards",
   },
-  // {
-  //   imgURL: "/images/loan.svg",
-  //   route: "/loans",
-  //   Component: HomeIcon,
-  //   label: "Loans",
-  // },
+  {
+    route: "/payment-transfer",
+    Component: PaymentTransfer,
+    label: "Payment Transfer",
+  },
   // {
   //   imgURL: "/images/service.svg",
   //   route: "/services",
@@ -60,28 +61,28 @@ export const sidebarLinks = [
 ];
 
 export const transactionCategoryStyles = {
+  ENTERTAINMENT: {
+    borderColor: "border-yellow-600",
+    backgroundColor: "bg-yellow-600",
+    textColor: "text-yellow-700",
+    chipBackgroundColor: "bg-inherit",
+  },
   FOOD_AND_DRINK: {
-    borderColor: "border-pink-600",
-    backgroundColor: "bg-pink-500",
-    textColor: "text-pink-700",
+    borderColor: "border-blue-600",
+    backgroundColor: "bg-blue-500",
+    textColor: "text-blue-700",
     chipBackgroundColor: "bg-inherit",
   },
   LOAN_PAYMENTS: {
-    borderColor: "border-success-600",
+    borderColor: "border-green-600",
     backgroundColor: "bg-green-600",
-    textColor: "text-success-700",
+    textColor: "text-green-700",
     chipBackgroundColor: "bg-inherit",
   },
   BANK_FEES: {
     borderColor: "border-success-600",
     backgroundColor: "bg-green-600",
     textColor: "text-success-700",
-    chipBackgroundColor: "bg-inherit",
-  },
-  Transfer: {
-    borderColor: "border-red-700",
-    backgroundColor: "bg-red-700",
-    textColor: "text-red-700",
     chipBackgroundColor: "bg-inherit",
   },
   Processing: {
@@ -96,11 +97,23 @@ export const transactionCategoryStyles = {
     textColor: "text-[#027A48]",
     chipBackgroundColor: "bg-[#ECFDF3]",
   },
+  Transfer: {
+    borderColor: "border-orange-700",
+    backgroundColor: "bg-orange-700",
+    textColor: "text-orange-700",
+    chipBackgroundColor: "bg-inherit",
+  },
+  TRANSPORTATION: {
+    borderColor: "border-purple-600",
+    backgroundColor: "bg-purple-500",
+    textColor: "text-purple-700",
+    chipBackgroundColor: "bg-inherit",
+  },
   TRAVEL: {
-    borderColor: "border-[#0047AB]",
-    backgroundColor: "bg-blue-500",
-    textColor: "text-blue-700",
-    chipBackgroundColor: "bg-[#ECFDF3]",
+    borderColor: "border-green-600",
+    backgroundColor: "bg-green-500",
+    textColor: "text-green-700",
+    chipBackgroundColor: "bg-inherit",
   },
   default: {
     borderColor: "",
@@ -111,6 +124,19 @@ export const transactionCategoryStyles = {
 };
 
 export const topCategoryStyles = {
+  ENTERTAINMENT: {
+    bg: "bg-yellow-25",
+    circleBg: "bg-yellow-100",
+    text: {
+      main: "text-yellow-800",
+      count: "text-yellow-600",
+    },
+    progress: {
+      bg: "bg-yellow-100",
+      indicator: "bg-yellow-600",
+    },
+    Icon: Entertainment,
+  },
   FOOD_AND_DRINK: {
     bg: "bg-blue-25",
     circleBg: "bg-blue-100",
@@ -122,7 +148,46 @@ export const topCategoryStyles = {
       bg: "bg-blue-100",
       indicator: "bg-blue-700",
     },
-    icon: "/icons/monitor.svg",
+    Icon: Utensils,
+  },
+  LOAN_PAYMENTS: {
+    bg: "bg-pink-25",
+    circleBg: "bg-pink-100",
+    text: {
+      main: "fill-pink-900",
+      count: "text-pink-700",
+    },
+    progress: {
+      bg: "bg-pink-100",
+      indicator: "bg-pink-700",
+    },
+    Icon: Transfer,
+  },
+  Transfer: {
+    bg: "bg-orange-25",
+    circleBg: "bg-orange-100",
+    text: {
+      main: "fill-orange-700",
+      count: "text-orange-700",
+    },
+    progress: {
+      bg: "bg-orange-100",
+      indicator: "bg-orange-700",
+    },
+    Icon: Transfer,
+  },
+  TRANSPORTATION: {
+    bg: "bg-purple-25",
+    circleBg: "bg-purple-100",
+    text: {
+      main: "text-purple-900",
+      count: "text-purple-700",
+    },
+    progress: {
+      bg: "bg-purple-100",
+      indicator: "bg-purple-700",
+    },
+    Icon: Transportation,
   },
   TRAVEL: {
     bg: "bg-green-25",
@@ -135,7 +200,7 @@ export const topCategoryStyles = {
       bg: "bg-green-100",
       indicator: "bg-green-700",
     },
-    icon: "/icons/coins.svg",
+    Icon: Transportation,
   },
   default: {
     bg: "bg-pink-25",
@@ -148,6 +213,6 @@ export const topCategoryStyles = {
       bg: "bg-pink-100",
       indicator: "bg-pink-700",
     },
-    icon: "/icons/shopping-bag.svg",
+    Icon: ShoppingBag,
   },
 };

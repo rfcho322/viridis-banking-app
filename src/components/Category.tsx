@@ -11,21 +11,25 @@ const Category = ({ category }: CategoryProps) => {
         circleBg,
         text: { main, count },
         progress: { bg: progressBg, indicator },
-        icon,
+        Icon,
     } = topCategoryStyles[category.name as keyof typeof topCategoryStyles] ||
         topCategoryStyles.default;
 
     return (
         <div className={cn("gap-[18px] flex p-4 rounded-xl", bg)}>
-            <figure className={cn("flex-center size-10 rounded-full", circleBg)}>
-                <Image src={icon} width={20} height={20} alt={category.name} />
+            <figure className={cn("flex justify-center items-center size-10 rounded-full", circleBg)}>
+                {/* <Image src={icon} width={20} height={20} alt={category.name} /> */}
+                <div className="size-5">
+                    {
+                        <Icon IconColor={main} />
+                    }
+                </div>
             </figure>
-            {/* TODO: ADD SVG ICONS TO CATEGORIES */}
             <div className="flex w-full flex-1 flex-col gap-2">
-                <div className="text-14 flex justify-between">
-                    <h2 className={cn("font-medium", main)}>
+                <div className="text-sm flex justify-between">
+                    <h2 className={cn("font-medium first-letter:capitalize lowercase", main)}>
                         {category.name === 'FOOD_AND_DRINK' ? 'FOOD AND DRINK'
-                            : category.name === 'Transfer' ? 'TRANSFER'
+                            : category.name === 'LOAN_PAYMENTS' ? 'LOAN PAYMENTS'
                                 : category.name
                         }
                     </h2>
