@@ -24,7 +24,6 @@ const CategoryBadge = ({ category }: CategoryBadgeProps) => {
             <div className={cn('size-2 rounded-full', backgroundColor)} />
             <p className={cn('text-base font-medium first-letter:capitalize lowercase', textColor)}>
                 {
-                    // TODO: MAYBE TRY AND CHANGE TO LOWERCASE WITH AN UPPERCASE FIRST LETTER INSTEAD OF ALL UPPERCASE
                     category === 'FOOD_AND_DRINK' ? 'FOOD AND DRINK'
                         : category === 'LOAN_PAYMENTS' ? 'LOAN PAYMENTS'
                             : category === 'Transfer' ? 'TRANSFER'

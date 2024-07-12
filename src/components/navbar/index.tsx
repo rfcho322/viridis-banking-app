@@ -1,15 +1,33 @@
 'use client'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Input } from '@/components/ui/input'
-import { Search } from 'lucide-react'
+import { LogOut, Search } from 'lucide-react'
 import Image from 'next/image'
 import React from 'react'
 import MobileNavbar from '../MobileNavbar'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { logOutAccount } from '@/lib/actions/user.actions'
+
 
 const Navbar = () => {
 
+    const router = useRouter()
     const pathName = usePathname()
+
+    const handleLogOut = async () => {
+        const loggedOut = await logOutAccount()
+
+        console.log('isLoggedOut: ', loggedOut)
+        if (loggedOut) router.push('sign-in')
+    }
 
     return (
         <nav className='flex flex-col gap-5 p-6 lg:px-7 lg:py-5 xl:px-10 w-full bg-white border-b border-gray-200'>
@@ -51,10 +69,28 @@ const Navbar = () => {
                             />
                         </span>
                     </div>
-                    <Avatar className='size-[35px] lg:size-[45px] xl:size-[60px]'>
-                        <AvatarImage src="https://github.com/shadcn.png" />
-                        <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger>
+                            <Avatar className='size-[35px] lg:size-[45px] xl:size-[60px]'>
+                                <AvatarImage src="https://github.com/shadcn.png" />
+                                <AvatarFallback>DM</AvatarFallback>
+                            </Avatar>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem>Profile</DropdownMenuItem>
+                            <DropdownMenuItem>Billing</DropdownMenuItem>
+                            <DropdownMenuItem>Team</DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem
+                                onClick={handleLogOut}
+                            >
+                                <LogOut className='mr-2 h-4 w-4' />
+                                <span>Sign out</span>
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 </div>
             </div>
 

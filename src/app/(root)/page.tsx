@@ -6,6 +6,7 @@ import React from 'react'
 import RecentTransactions from '@/components/RecentTransactions'
 import { countTransactionCategories } from '@/lib/utils'
 import Category from '@/components/Category'
+import Link from 'next/link'
 
 
 const Dashboard = async ({ searchParams: { id, page } }: SearchParamProps) => {
@@ -34,7 +35,13 @@ const Dashboard = async ({ searchParams: { id, page } }: SearchParamProps) => {
                     <div className='col-span-3 md:col-span-2 flex flex-col gap-5'>
                         <div className='flex items-center justify-between text-[#343C6A]'>
                             <h2 className='text-[22px] font-semibold'>My Cards</h2>
-                            <p className='text-[17px] font-semibold'>See All</p>
+                            <Link
+                                href="/credit-cards"
+                                className='text-[17px] font-semibold no-underline'
+                            >
+                                {/* <p className='text-[17px] font-semibold'>See All</p> */}
+                                See All
+                            </Link>
                         </div>
                         <BankCardWidget
                             user={loggedIn}

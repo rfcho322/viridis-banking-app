@@ -181,7 +181,6 @@ declare interface PlaidButtonProps {
 
 declare interface SidebarFooterProps {
   user: User;
-  handleLogOut: () => Promise<void>;
 }
 
 // declare type User = sdk.Models.Document & {
@@ -278,10 +277,10 @@ declare interface getTransactionsProps {
 }
 
 declare interface CreateFundingSourceOptions {
-  customerId: string; // Dwolla Customer ID
-  fundingSourceName: string; // Dwolla Funding Source Name
-  plaidToken: string; // Plaid Account Processor Token
-  _links: object; // Dwolla On Demand Authorization Link
+  customerId: string; // Dwolla CUSTOMER ID
+  fundingSourceName: string; // Dwolla FUNDING SOURCE NAME
+  plaidToken: string; // Plaid ACCOUNT PROCESSOR TOKEN
+  _links: object; // Dwolla ON DEMAND AUTHORIZATION LINK
 }
 
 declare interface CreateTransactionProps {

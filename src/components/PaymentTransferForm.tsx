@@ -245,7 +245,7 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
                 />
 
                 <div className="mt-5 flex w-full max-w-[850px] gap-3 border-gray-200 py-5">
-                    <Button type="submit" className="text-sm w-full bg-green-500 font-semibold text-white shadow-form !important">
+                    <Button type="submit" className="text-sm bg-green-500 font-semibold text-white shadow-form !important">
                         {isLoading ? (
                             <>
                                 <Loader2 size={20} className="animate-spin" /> &nbsp; Sending...

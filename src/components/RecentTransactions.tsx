@@ -2,6 +2,7 @@ import React from 'react'
 import TransactionsTable from '@/components/TransactionsTable'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import BankTabItem from './BankTabItem'
+import Link from 'next/link'
 
 const RecentTransactions = ({
     accounts,
@@ -11,7 +12,6 @@ const RecentTransactions = ({
 }: RecentTransactionsProps) => {
 
     const rowsPerPage = 5
-    const totalPages = Math.ceil(transactions.length / rowsPerPage)
 
     const indexOfLastTransaction = page * rowsPerPage
     const indexOfFirstTransaction = indexOfLastTransaction - rowsPerPage
@@ -22,7 +22,11 @@ const RecentTransactions = ({
         <>
             <div className='flex items-center justify-between text-[#343C6A]'>
                 <p className='text-[22px] font-semibold'>Recent Transactions</p>
-                <p className='text-[17px] font-semibold'>See All</p>
+                <Link
+                    href='/transactions'
+                    className='text-[17px] font-semibold no-underline'>
+                    See All
+                </Link>
             </div>
             <div>
                 <Tabs defaultValue={appwriteItemId} className="">
@@ -56,9 +60,6 @@ const RecentTransactions = ({
                 </Tabs>
 
             </div >
-            {/* <div className='relative h-[170px] w-full rounded-[20px] bg-white backdrop-blur-[6px]'>
-                <TransactionsTable />
-            </div> */}
         </>
     )
 }
