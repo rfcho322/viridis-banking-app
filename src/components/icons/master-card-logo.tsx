@@ -1,5 +1,3 @@
-import React from 'react'
-
 const MasterCardLogo = ({ fillColor }: { fillColor: string }) => {
 
     return (

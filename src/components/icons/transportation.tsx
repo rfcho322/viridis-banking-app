@@ -1,5 +1,3 @@
-import React from 'react'
-
 const Transportation = ({ IconColor }: { IconColor: string }) => {
     return (
         <svg

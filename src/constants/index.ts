@@ -1,6 +1,7 @@
 import { CreditCardIcon } from "@/components/icons/credit-card";
 import Entertainment from "@/components/icons/entertainment";
 import HomeIcon from "@/components/icons/home";
+import SettingsIcon from "@/components/icons/settings";
 import ShoppingBag from "@/components/icons/shopping-bag";
 import TransactionsIcon from "@/components/icons/transactions";
 import { PaymentTransfer, Transfer } from "@/components/icons/transfer";
@@ -52,12 +53,12 @@ export const sidebarLinks = [
   //   Component: HomeIcon,
   //   label: "My Privileges",
   // },
-  // {
-  //   imgURL: "/images/settings.svg",
-  //   route: "/settings",
-  //   Component: HomeIcon,
-  //   label: "Settings",
-  // },
+  {
+    imgURL: "/images/settings.svg",
+    route: "/settings",
+    Component: SettingsIcon,
+    label: "Settings",
+  },
 ];
 
 export const transactionCategoryStyles = {

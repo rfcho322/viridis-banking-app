@@ -18,6 +18,7 @@ import PlaidButton from './PlaidButton'
 const AuthForm = ({ type }: { type: string }) => {
     const router = useRouter()
     const [user, setUser] = useState(null)
+    const [errorMessage, setErrorMessage] = useState<string | null>(null)
     const [isLoading, setIsLoading] = useState(false)
 
     const formSchema = authFormSchema(type)
@@ -31,7 +32,7 @@ const AuthForm = ({ type }: { type: string }) => {
     })
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
-        console.log(data)
+        // console.log(data)
         setIsLoading(true)
         try {
 
@@ -63,8 +64,11 @@ const AuthForm = ({ type }: { type: string }) => {
                 if (response) router.push('/')
             }
 
-        } catch (error) {
-            console.log(error)
+        } catch (error: any) {
+            // console.log(error)
+            // TODO: DONE ADDING ERROR MESSAGE ON SIGN IN, ADD THIS TO REPO LATER
+            setErrorMessage((error as Error).message)
+            setIsLoading(false)
         }
         // finally {
         //     setIsLoading(false)
@@ -111,6 +115,9 @@ const AuthForm = ({ type }: { type: string }) => {
                 <>
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                            {errorMessage &&
+                                <p className='text-red-500'>{errorMessage}</p>
+                            }
                             {type === 'sign-up' && (
                                 <>
                                     <div className='flex justify-between gap-4'>

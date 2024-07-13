@@ -23,10 +23,10 @@ const Dashboard = async ({ searchParams: { id, page } }: SearchParamProps) => {
 
     const categories: CategoryCount[] = countTransactionCategories(account?.transactions)
 
-    console.log({
-        accountsData,
-        account
-    })
+    // console.log({
+    //     accountsData,
+    //     account
+    // })
 
     return (
         <section className='no-scrollbar flex w-full flex-row'>

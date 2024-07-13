@@ -17,7 +17,7 @@ import {
 import { logOutAccount } from '@/lib/actions/user.actions'
 
 
-const Navbar = () => {
+const Navbar = ({ user }: NavbarProps) => {
 
     const router = useRouter()
     const pathName = usePathname()
@@ -25,7 +25,7 @@ const Navbar = () => {
     const handleLogOut = async () => {
         const loggedOut = await logOutAccount()
 
-        console.log('isLoggedOut: ', loggedOut)
+        // console.log('isLoggedOut: ', loggedOut)
         if (loggedOut) router.push('sign-in')
     }
 
@@ -39,7 +39,11 @@ const Navbar = () => {
                             ? 'Transactions'
                             : pathName === '/credit-cards'
                                 ? 'Credit Cards'
-                                : 'Overview'
+                                : pathName === '/payment-transfer'
+                                    ? 'Payment Transfer'
+                                    : pathName === '/settings'
+                                        ? 'Settings'
+                                        : 'Overview'
                         }
                     </h1>
                 </div>
@@ -77,11 +81,18 @@ const Navbar = () => {
                             </Avatar>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
-                            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                            <div className='flex gap-1'>
+                                <Avatar className='size-[35px]'>
+                                    <AvatarImage src="https://github.com/shadcn.png" />
+                                    <AvatarFallback>DM</AvatarFallback>
+                                </Avatar>
+                                <DropdownMenuLabel className='text-[#343C6A]'>
+                                    {`${user.firstName} ${user.lastName}`}
+                                </DropdownMenuLabel>
+                            </div>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem>Profile</DropdownMenuItem>
-                            <DropdownMenuItem>Billing</DropdownMenuItem>
-                            <DropdownMenuItem>Team</DropdownMenuItem>
+                            <DropdownMenuItem>Edit Profile</DropdownMenuItem>
+                            <DropdownMenuItem>Change Password</DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem
                                 onClick={handleLogOut}

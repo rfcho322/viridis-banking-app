@@ -98,7 +98,7 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
             <form onSubmit={form.handleSubmit(submit)} className="flex flex-col">
                 <div className="flex flex-col gap-1 pb-5 pt-6">
                     <h2 className="text-lg font-semibold text-[#343C6A]">
-                        Payment Transfer
+                        Transfer Details
                     </h2>
                     <p className="text-base font-normal text-gray-600">
                         Please provide any specific details or notes related to the payment transfer

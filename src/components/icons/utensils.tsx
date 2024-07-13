@@ -1,5 +1,3 @@
-import React from 'react'
-
 const Utensils = ({ IconColor }: { IconColor: string }) => {
     return (
         <svg
