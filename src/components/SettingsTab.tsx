@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import SettingsTabItem from '@/components/SettingsTabItem'
 import EditProfileForm from '@/components/EditProfileForm'
-import { string } from 'zod'
 
 type User = {
     userId: string;
