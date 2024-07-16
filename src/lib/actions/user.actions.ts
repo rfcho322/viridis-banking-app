@@ -36,6 +36,22 @@ export const getUserInfo = async ({ userId }: getUserInfoProps) => {
   }
 };
 
+export const getUserDocumentId = async (userId: string) => {
+  try {
+    const { database } = await createAdminClient();
+
+    const user = await database.listDocuments(
+      DATABASE_ID!,
+      USER_COLLECTION_ID!,
+      [Query.equal("userId", [userId])]
+    );
+
+    return parseStringify(user.documents[0].$id);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const signIn = async ({ email, password }: signInProps) => {
   try {
     const { account } = await createAdminClient();
@@ -110,6 +126,27 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
     return parseStringify(newUser);
   } catch (error) {
     console.error("Error", error);
+  }
+};
+
+export const editProfile = async (userId: string, userData: EditProfile) => {
+  try {
+    const { database } = await createAdminClient();
+    const documentId = await getUserDocumentId(userId);
+    await database.updateDocument(
+      DATABASE_ID!,
+      USER_COLLECTION_ID!,
+      documentId,
+      userData
+    );
+    console.log("User updated successfully");
+    return parseStringify({
+      success: true,
+      message: "User updated successfully",
+    });
+  } catch (error) {
+    console.error("Error updating user:", error);
+    throw new Error("Error updating user profile");
   }
 };
 

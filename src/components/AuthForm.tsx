@@ -26,6 +26,14 @@ const AuthForm = ({ type }: { type: string }) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
+            firstName: "",
+            lastName: "",
+            address1: "",
+            city: "",
+            state: "",
+            postalCode: "",
+            dateOfBirth: "",
+            ssn: "",
             email: "",
             password: ""
         },
@@ -157,7 +165,7 @@ const AuthForm = ({ type }: { type: string }) => {
                                             control={form.control}
                                             name='postalCode'
                                             label='Postal Code'
-                                            placeholder="Example: 0000"
+                                            placeholder="Example: 00000"
                                         />
                                     </div>
                                     <div className='flex justify-between gap-4'>
