@@ -7,9 +7,8 @@ import { z } from "zod"
 import { Button } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
 import EditProfileInput from './EditProfileInput';
-import { Loader2, Router } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { editProfile } from '@/lib/actions/user.actions';
-import { ToastAction } from './ui/toast';
 import { useToast } from './ui/use-toast';
 
 
