@@ -347,3 +347,8 @@ declare interface getBankProps {
 declare interface getBankByAccountIdProps {
   accountId: string;
 }
+
+declare interface changePasswordProps {
+  currentPassword: string;
+  newPassword: string;
+}

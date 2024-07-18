@@ -15,6 +15,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { logOutAccount } from '@/lib/actions/user.actions'
+import Link from 'next/link'
 
 
 const Navbar = ({ user }: NavbarProps) => {
@@ -55,7 +56,9 @@ const Navbar = ({ user }: NavbarProps) => {
                             placeholder='Search for something'
                             className='text-[#343C6A] placeholder:text-[#8BA3CB] border-none focus-visible:ring-offset-0 focus-visible:!ring-0 bg-transparent' />
                     </span>
-                    <div className='hidden lg:flex items-center justify-center cursor-pointer bg-[#F5F7FA] p-3 rounded-full'>
+                    <Link
+                        href="/settings"
+                        className='hidden lg:flex items-center justify-center bg-[#F5F7FA] p-3 rounded-full'>
                         <span className='lg:size-[18px] xl:size-[25px] relative'>
                             <Image
                                 src="/images/settings-outline.svg"
@@ -63,7 +66,7 @@ const Navbar = ({ user }: NavbarProps) => {
                                 fill
                             />
                         </span>
-                    </div>
+                    </Link>
                     <div className='hidden lg:flex items-center justify-center cursor-pointer bg-[#F5F7FA] p-3 rounded-full'>
                         <span className='lg:size-[18px] xl:size-[25px] relative'>
                             <Image
@@ -91,8 +94,16 @@ const Navbar = ({ user }: NavbarProps) => {
                                 </DropdownMenuLabel>
                             </div>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem>Edit Profile</DropdownMenuItem>
-                            <DropdownMenuItem>Change Password</DropdownMenuItem>
+                            <DropdownMenuItem>
+                                <Link
+                                    href="/settings?tab=Edit%20Profile"
+                                >Edit Profile</Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                                <Link
+                                    href="/settings?tab=Security"
+                                >Change Password</Link>
+                            </DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem
                                 onClick={handleLogOut}

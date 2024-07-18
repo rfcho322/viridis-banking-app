@@ -335,3 +335,24 @@ export const getBankByAccountId = async ({
     console.log(error);
   }
 };
+
+export const changePassword = async ({
+  currentPassword,
+  newPassword,
+}: changePasswordProps) => {
+  try {
+    const { account } = await createSessionClient();
+    await account.updatePassword(newPassword, currentPassword);
+
+    // Password updated successfully, you can redirect or show a success message
+    // redirect("/account");
+    return parseStringify({
+      success: true,
+      message: "Password updated successfully",
+    });
+  } catch (error) {
+    // Handle any errors that occur during the password update process
+    console.error("Error updating password:", error);
+    throw new Error("Error updating password");
+  }
+};

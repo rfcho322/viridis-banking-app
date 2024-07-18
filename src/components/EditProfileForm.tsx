@@ -7,7 +7,7 @@ import { z } from "zod"
 import { Button } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
 import EditProfileInput from './EditProfileInput';
-import { Loader2 } from 'lucide-react';
+import { CircleAlert, CircleCheckBig, Loader2 } from 'lucide-react';
 import { editProfile } from '@/lib/actions/user.actions';
 import { useToast } from './ui/use-toast';
 
@@ -69,7 +69,14 @@ const EditProfileForm = ({ user }: { user: User }) => {
             if (response.success) {
                 toast({
                     variant: "success",
-                    description: response.message
+                    description: (
+                        <div className='flex items-center gap-4'>
+                            <span>
+                                <CircleCheckBig />
+                            </span>
+                            <span>{response.message}</span>
+                        </div>
+                    ),
                 })
             }
 
@@ -77,7 +84,14 @@ const EditProfileForm = ({ user }: { user: User }) => {
             console.log("Something went wrong", error)
             toast({
                 variant: "destructive",
-                description: "Something went wrong while updating user, please try again"
+                description: (
+                    <div className='flex items-center gap-4'>
+                        <span>
+                            <CircleAlert />
+                        </span>
+                        <span>Something went wrong while updating user, please try again</span>
+                    </div>
+                ),
             })
         }
 

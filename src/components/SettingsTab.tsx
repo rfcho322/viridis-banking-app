@@ -1,8 +1,10 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import SettingsTabItem from '@/components/SettingsTabItem'
 import EditProfileForm from '@/components/EditProfileForm'
+import ChangePasswordForm from './ChangePasswordForm'
+import { useSearchParams } from 'next/navigation'
 
 type User = {
     userId: string;
@@ -18,14 +20,20 @@ type User = {
 }
 
 const SettingsTab = ({ user }: { user: User }) => {
+    const searchParams = useSearchParams();
+    const tab = searchParams.get('tab') || "Edit Profile";
     const tabItems = [
         { label: 'Edit Profile' },
         { label: 'Security' },
     ]
     const [activeTab, setActiveTab] = useState(tabItems[0].label);
 
+    useEffect(() => {
+        setActiveTab(tab);
+    }, [tab]);
+
     return (
-        <Tabs defaultValue={tabItems[0].label} onValueChange={setActiveTab}>
+        <Tabs defaultValue={tab} onValueChange={setActiveTab}>
             <TabsList className='custom-scrollbar flex gap-3 justify-start mb-6 !bg-transparent flex-nowrap'>
                 {tabItems.map((tabItems, index) => (
                     <TabsTrigger
@@ -43,14 +51,10 @@ const SettingsTab = ({ user }: { user: User }) => {
             {tabItems.map((tabItem, index) => (
                 <TabsContent
                     key={index}
-                    value={tabItem.label}>
-                    {tabItem.label === "Edit Profile" && <EditProfileForm user={user} />}
-                    {tabItem.label === "Security" &&
-                        <div>
-                            {/* TODO: MAYBE ADD CURRENT PASSWORD AND CHANGE PASSWORD FORM HERE*/}
-                            Change Password
-                        </div>
-                    }
+                    value={tabItem.label}
+                >
+                    {activeTab === "Edit Profile" && <EditProfileForm user={user} />}
+                    {activeTab === "Security" && <ChangePasswordForm />}
                 </TabsContent>
             ))}
         </Tabs>
