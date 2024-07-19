@@ -344,14 +344,14 @@ export const changePassword = async ({
     const { account } = await createSessionClient();
     await account.updatePassword(newPassword, currentPassword);
 
-    // Password updated successfully, you can redirect or show a success message
+    // PASSWORD UPDATED SUCCESSFULLY, REDIRECT OR SHOW A SUCCESS MESSAGE
     // redirect("/account");
     return parseStringify({
       success: true,
       message: "Password updated successfully",
     });
   } catch (error) {
-    // Handle any errors that occur during the password update process
+    // HANDLE ANY ERROR THAT OCCUR DURING THE PASSWORD UPDATE PROCESS
     console.error("Error updating password:", error);
     throw new Error("Error updating password");
   }

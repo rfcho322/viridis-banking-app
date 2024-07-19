@@ -79,15 +79,19 @@ const Navbar = ({ user }: NavbarProps) => {
                     <DropdownMenu>
                         <DropdownMenuTrigger>
                             <Avatar className='size-[35px] lg:size-[45px] xl:size-[60px]'>
-                                <AvatarImage src="https://github.com/shadcn.png" />
-                                <AvatarFallback>DM</AvatarFallback>
+                                {/* TEMPORARY: USER'S INITIALS WILL BE THE AVATAR */}
+                                {/* TODO NON-PRIO (FUTURE UPDATE): ADD ABILITY TO GET THE IMAGE FROM DATABASE */}
+                                <AvatarImage src="https://viridis/image.png" />
+                                <AvatarFallback className='bg-green-500 text-white'>{`${user.firstName[0]}${user.lastName[0]}`}</AvatarFallback>
                             </Avatar>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
                             <div className='flex gap-1'>
                                 <Avatar className='size-[35px]'>
-                                    <AvatarImage src="https://github.com/shadcn.png" />
-                                    <AvatarFallback>DM</AvatarFallback>
+                                    {/* TEMPORARY: USER'S INITIALS WILL BE THE AVATAR */}
+                                    {/* TODO NON-PRIO (FUTURE UPDATE): ADD ABILITY TO GET THE IMAGE FROM DATABASE */}
+                                    <AvatarImage src="https://viridis/image.png" />
+                                    <AvatarFallback className='bg-green-500 text-white'>{`${user.firstName[0]}${user.lastName[0]}`}</AvatarFallback>
                                 </Avatar>
                                 <DropdownMenuLabel className='text-[#343C6A]'>
                                     {`${user.firstName} ${user.lastName}`}

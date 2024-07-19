@@ -38,9 +38,6 @@ const ChangePasswordForm = () => {
     })
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log(values)
         try {
 
             const userPasswordChange = {
@@ -79,7 +76,6 @@ const ChangePasswordForm = () => {
 
     return (
         <div>
-            {/* TODO: MAYBE ADD CURRENT PASSWORD AND CHANGE PASSWORD FORM HERE*/}
             <h2 className="text-[17px] font-semibold text-[#343C6A] mb-4">
                 Change Password
             </h2>
