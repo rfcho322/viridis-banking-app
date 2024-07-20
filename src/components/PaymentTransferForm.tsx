@@ -127,7 +127,7 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
                                         Select the bank account you want to transfer funds from
                                     </FormDescription>
                                 </div>
-                                <div className="flex w-full flex-col">
+                                <div className="flex w-full flex-col gap-2">
                                     <FormControl>
                                         <BankDropdown
                                             accounts={accounts}
@@ -135,7 +135,7 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
                                             otherStyles="!w-full"
                                         />
                                     </FormControl>
-                                    <FormMessage className="text-xs text-red-500" />
+                                    <FormMessage />
                                 </div>
                             </div>
                         </FormItem>
@@ -157,7 +157,7 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
                                         related to the transfer
                                     </FormDescription>
                                 </div>
-                                <div className="flex w-full flex-col">
+                                <div className="flex w-full flex-col gap-2">
                                     <FormControl>
                                         <Textarea
                                             placeholder="Write a short note here"
@@ -165,7 +165,7 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
                                             {...field}
                                         />
                                     </FormControl>
-                                    <FormMessage className="text-sm text-red-500" />
+                                    <FormMessage />
                                 </div>
                             </div>
                         </FormItem>
@@ -190,7 +190,7 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
                                 <FormLabel className="text-sm w-full max-w-[280px] font-medium text-gray-700">
                                     Recipient&apos;s Email Address
                                 </FormLabel>
-                                <div className="flex w-full flex-col">
+                                <div className="flex w-full flex-col gap-2">
                                     <FormControl>
                                         <Input
                                             placeholder="Ex: johndoe@gmail.com"
@@ -198,7 +198,7 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
                                             {...field}
                                         />
                                     </FormControl>
-                                    <FormMessage className="text-xs text-red-500" />
+                                    <FormMessage />
                                 </div>
                             </div>
                         </FormItem>
@@ -214,7 +214,7 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
                                 <FormLabel className="text-sm w-full max-w-[280px] font-medium text-gray-700">
                                     Receiver&apos;s Plaid Shareable Id
                                 </FormLabel>
-                                <div className="flex w-full flex-col">
+                                <div className="flex w-full flex-col gap-2">
                                     <FormControl>
                                         <Input
                                             placeholder="Enter the public account number"
@@ -222,7 +222,7 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
                                             {...field}
                                         />
                                     </FormControl>
-                                    <FormMessage className="text-xs text-red-500" />
+                                    <FormMessage />
                                 </div>
                             </div>
                         </FormItem>
@@ -238,7 +238,7 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
                                 <FormLabel className="text-sm w-full max-w-[280px] font-medium text-gray-700">
                                     Amount
                                 </FormLabel>
-                                <div className="flex w-full flex-col">
+                                <div className="flex w-full flex-col gap-2">
                                     <FormControl>
                                         <Input
                                             placeholder="Ex: 5.00"
@@ -246,7 +246,7 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
                                             {...field}
                                         />
                                     </FormControl>
-                                    <FormMessage className="text-xs text-red-500" />
+                                    <FormMessage />
                                 </div>
                             </div>
                         </FormItem>

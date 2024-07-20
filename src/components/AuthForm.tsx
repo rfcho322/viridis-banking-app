@@ -128,7 +128,7 @@ const AuthForm = ({ type }: { type: string }) => {
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                             {errorMessage &&
-                                <p className='text-red-500'>{errorMessage}</p>
+                                <p className='text-destructive'>{errorMessage}</p>
                             }
                             {type === 'sign-up' && (
                                 <>
