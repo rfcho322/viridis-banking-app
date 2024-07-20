@@ -9,11 +9,12 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import CustomInput from './CustomInput'
 import { authFormSchema } from '@/lib/utils'
-import { CreditCard, Loader2 } from 'lucide-react'
+import { Loader2 } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { signIn, signUp } from '@/lib/actions/user.actions'
 import PlaidButton from './PlaidButton'
+import Image from 'next/image'
 
 const AuthForm = ({ type }: { type: string }) => {
     const router = useRouter()
@@ -74,13 +75,9 @@ const AuthForm = ({ type }: { type: string }) => {
 
         } catch (error: any) {
             // console.log(error)
-            // TODO: DONE ADDING ERROR MESSAGE ON SIGN IN, ADD THIS TO REPO LATER
             setErrorMessage((error as Error).message)
             setIsLoading(false)
         }
-        // finally {
-        //     setIsLoading(false)
-        // }
     }
 
     return (
@@ -90,9 +87,16 @@ const AuthForm = ({ type }: { type: string }) => {
                     href="/"
                     className="flex items-center cursor-pointer gap-1 text-3xl text-[#343C6A] font-bold"
                 >
-                    <span>
-                        <CreditCard className='w-8 h-8 mr-1' />
-                    </span>
+                    <div className='relative w-9 h-9'>
+                        <Image
+                            src="/images/viridis-logo.svg"
+                            alt="Viridis logo"
+                            fill
+                            draggable="false"
+                            onContextMenu={(e) => e.preventDefault()}
+                            className="object-contain"
+                        />
+                    </div>
                     Viridis.
                 </Link>
 

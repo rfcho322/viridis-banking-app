@@ -25,6 +25,7 @@ import {
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { BankDropdown } from "./BankDropdown";
+import ToastMessage from "./ToastMessage";
 
 const formSchema = z.object({
     email: z.string().email("Invalid email address"),
@@ -84,10 +85,18 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
                 if (newTransaction) {
                     form.reset();
                     router.push("/");
+                    ToastMessage({
+                        type: "success",
+                        message: "Transfer of funds completed successfully."
+                    })
                 }
             }
         } catch (error) {
             console.error("Submitting create transfer request failed: ", error);
+            ToastMessage({
+                type: "destructive",
+                message: "Transfer of funds failed. Please try again later."
+            })
         }
 
         setIsLoading(false);

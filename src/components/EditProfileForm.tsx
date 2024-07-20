@@ -7,9 +7,10 @@ import { z } from "zod"
 import { Button } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
 import EditProfileInput from './EditProfileInput';
-import { CircleAlert, CircleCheckBig, Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { editProfile } from '@/lib/actions/user.actions';
 import { useToast } from './ui/use-toast';
+import ToastMessage from './ToastMessage';
 
 
 type User = {
@@ -29,7 +30,7 @@ const formSchema = EditProfileFormSchema()
 const EditProfileForm = ({ user }: { user: User }) => {
     const { toast } = useToast()
     const [isLoading, setIsLoading] = useState(false);
-    // TODO: DO SOMETHING ABOUT THE ERRORS MAYBE TRY TO HOOK IT TO FORM SCHEMA
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -67,31 +68,19 @@ const EditProfileForm = ({ user }: { user: User }) => {
             const response = await editProfile(user.userId, userData);
 
             if (response.success) {
-                toast({
-                    variant: "success",
-                    description: (
-                        <div className='flex items-center gap-4'>
-                            <span>
-                                <CircleCheckBig />
-                            </span>
-                            <span>{response.message}</span>
-                        </div>
-                    ),
+                // CUSTOM TOAST MESSAGE
+                ToastMessage({
+                    type: "success",
+                    message: response.message
                 })
             }
 
         } catch (error) {
             console.log("Something went wrong", error)
-            toast({
-                variant: "destructive",
-                description: (
-                    <div className='flex items-center gap-4'>
-                        <span>
-                            <CircleAlert />
-                        </span>
-                        <span>Something went wrong while updating user, please try again</span>
-                    </div>
-                ),
+            // CUSTOM TOAST MESSAGE
+            ToastMessage({
+                type: "destructive",
+                message: "Something went wrong while updating user, please try again."
             })
         }
 

@@ -10,12 +10,12 @@ import {
 } from "@/components/ui/sheet"
 import { sidebarLinks } from "@/constants";
 import { cn } from "@/lib/utils";
-import { CreditCard } from "lucide-react";
 import Image from "next/image"
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import SidebarFooter from "./SidebarFooter";
 
-const MobileNavbar = () => {
+const MobileNavbar = ({ user }: MobileNavbarProps) => {
 
     const pathName = usePathname();
 
@@ -33,21 +33,28 @@ const MobileNavbar = () => {
                 </SheetTrigger>
                 <SheetContent
                     side="left"
-                    className="w-[300px] pl-0"
+                    className="w-[300px] pl-0 flex flex-col justify-between"
                 >
-                    <SheetHeader>
-                        <SheetTitle hidden={true}>Sidebar</SheetTitle>
-                        <SheetDescription hidden={true}>Sidebar for Viridis banking app</SheetDescription>
+                    <SheetHeader className="hidden">
+                        <SheetTitle>Sidebar</SheetTitle>
+                        <SheetDescription>Sidebar for Viridis banking app</SheetDescription>
                     </SheetHeader>
                     {/* <SheetClose asChild> */}
                     <nav className='flex flex-col gap-3 lg:gap-0'>
                         <Link
                             href="/"
-                            className='flex justify-center items-center mb-3 px-10 py-8 text-3xl text-[#343C6A] font-bold'
+                            className='flex justify-center items-center gap-1 mb-3 px-10 py-8 text-3xl text-[#343C6A] font-bold'
                         >
-                            <span>
-                                <CreditCard className='w-8 h-8 mr-1' />
-                            </span>
+                            <div className='relative w-9 h-9'>
+                                <Image
+                                    src="/images/viridis-logo.svg"
+                                    alt="Viridis logo"
+                                    fill
+                                    draggable="false"
+                                    onContextMenu={(e) => e.preventDefault()}
+                                    className="object-contain"
+                                />
+                            </div>
                             Viridis.
                         </Link>
                         {sidebarLinks.map((item) => {
@@ -79,7 +86,7 @@ const MobileNavbar = () => {
                             )
                         })}
                     </nav>
-                    {/* TODO ADD PLAID BUTTON HERE */}
+                    <SidebarFooter user={user} />
                     {/* </SheetClose> */}
                 </SheetContent>
             </Sheet>

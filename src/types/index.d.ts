@@ -239,6 +239,10 @@ declare interface SidebarProps {
   user: User;
 }
 
+declare interface MobileNavbarProps {
+  user: User;
+}
+
 declare interface NavbarProps {
   user: User;
 }
@@ -351,4 +355,9 @@ declare interface getBankByAccountIdProps {
 declare interface changePasswordProps {
   currentPassword: string;
   newPassword: string;
+}
+
+declare interface ToastMessageProps {
+  type: "default" | "success" | "destructive";
+  message: string;
 }

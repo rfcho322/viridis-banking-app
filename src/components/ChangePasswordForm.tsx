@@ -5,7 +5,6 @@ import { z } from "zod"
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -13,9 +12,8 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Button } from './ui/button'
-import { CircleAlert, CircleCheckBig } from 'lucide-react'
-import { toast } from './ui/use-toast'
 import { changePassword } from '@/lib/actions/user.actions'
+import ToastMessage from './ToastMessage'
 
 
 const formSchema = z.object({
@@ -47,29 +45,17 @@ const ChangePasswordForm = () => {
 
             const response = await changePassword(userPasswordChange);
             if (response.success) {
-                toast({
-                    variant: "success",
-                    description: (
-                        <div className='flex items-center gap-4'>
-                            <span>
-                                <CircleCheckBig />
-                            </span>
-                            <span>{response.message}</span>
-                        </div>
-                    ),
+                // CUSTOM TOAST MESSAGE
+                ToastMessage({
+                    type: "success",
+                    message: response.message
                 })
             }
         } catch (error) {
-            toast({
-                variant: "destructive",
-                description: (
-                    <div className='flex items-center gap-4'>
-                        <span>
-                            <CircleAlert />
-                        </span>
-                        <span>Something went wrong while updating password, please try again</span>
-                    </div>
-                ),
+            // CUSTOM TOAST MESSAGE
+            ToastMessage({
+                type: "destructive",
+                message: "Something went wrong while updating password, please try again"
             })
         }
     }

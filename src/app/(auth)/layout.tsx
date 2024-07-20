@@ -1,3 +1,4 @@
+'use client'
 import Image from "next/image";
 
 export default function RootLayout({
@@ -15,12 +16,13 @@ export default function RootLayout({
                     fill
                     className="object-cover"
                 />
-                {/* TODO: TEMPORARILY ADDED DASHBOARD PREVIEW, CHANGE LATER AND ADD MOBILE PREVIEW */}
                 <Image
-                    src="/images/viridis-dashboard.webp"
+                    src="/images/viridis-showcase.webp"
                     alt="viridish dashboard preview"
                     width={1000}
                     height={1000}
+                    draggable="false"
+                    onContextMenu={(e) => e.preventDefault()}
                     className="z-10"
                 />
             </div>

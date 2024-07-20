@@ -33,7 +33,7 @@ const Navbar = ({ user }: NavbarProps) => {
     return (
         <nav className='flex flex-col gap-5 p-6 lg:px-7 lg:py-5 xl:px-10 w-full bg-white border-b border-gray-200'>
             <div className='flex justify-between items-center '>
-                <MobileNavbar />
+                <MobileNavbar user={user} />
                 <div>
                     <h1 className='text-[#343C6A] font-semibold text-xl lg:text-2xl xl:text-3xl'>
                         {pathName === '/transactions'

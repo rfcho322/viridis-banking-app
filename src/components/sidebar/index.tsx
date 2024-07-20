@@ -1,11 +1,11 @@
 'use client'
 import { sidebarLinks } from '@/constants'
 import { cn } from '@/lib/utils'
-import { CreditCard } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React from 'react'
 import SidebarFooter from '../SidebarFooter'
+import Image from 'next/image'
 
 const Sidebar = ({ user }: SidebarProps) => {
 
@@ -16,11 +16,18 @@ const Sidebar = ({ user }: SidebarProps) => {
             <nav className='flex flex-col'>
                 <Link
                     href="/"
-                    className='flex justify-center items-center mb-3 px-10 py-8 text-3xl text-[#343C6A] font-bold'
+                    className='flex justify-center items-center gap-1 mb-3 px-10 py-8 text-3xl text-[#343C6A] font-bold'
                 >
-                    <span>
-                        <CreditCard className='w-8 h-8 mr-1' />
-                    </span>
+                    <div className='relative w-9 h-9'>
+                        <Image
+                            src="/images/viridis-logo.svg"
+                            alt="Viridis logo"
+                            fill
+                            draggable="false"
+                            onContextMenu={(e) => e.preventDefault()}
+                            className="object-contain"
+                        />
+                    </div>
                     Viridis.
                 </Link>
                 {sidebarLinks.map((item) => {
@@ -47,7 +54,6 @@ const Sidebar = ({ user }: SidebarProps) => {
                     )
                 })}
             </nav>
-            {/* TODO: FOOTER LAYOUT FOR CONNECT BANK AND LOGOUT MAYBE */}
             <SidebarFooter user={user} />
         </section>
     )
