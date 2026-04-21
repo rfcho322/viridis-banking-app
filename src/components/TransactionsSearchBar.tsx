@@ -35,14 +35,14 @@ const TransactionsSearchBar = () => {
     }, [searchTerm])
 
     return (
-        <div className='relative flex items-center'>
+        <div className='relative flex items-center w-full sm:w-auto'>
             <Search className='absolute left-3 size-4 text-[#718EBF]' />
             <Input
                 type='text'
                 placeholder='Search transactions...'
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className='pl-9 w-48 sm:w-64 rounded-full border-[#DFEAF2] bg-white text-sm text-[#343C6A] placeholder:text-[#718EBF] focus-visible:ring-green-500'
+                className='pl-9 w-full sm:w-64 rounded-full border-[#DFEAF2] bg-white text-sm text-[#343C6A] placeholder:text-[#718EBF] focus-visible:ring-green-500'
             />
         </div>
     )

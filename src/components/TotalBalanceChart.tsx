@@ -10,10 +10,10 @@ const TotalBalanceChart = ({
     return (
         <div className='col-span-3 md:col-span-1 flex flex-col gap-5'>
             <div className='flex items-center justify-between text-[#343C6A]'>
-                <p className='text-[22px] font-semibold'>Overview</p>
+                <p className='text-[22px] font-semibold'>Account Summary</p>
             </div>
             <div className='relative flex items-center gap-5 lg:gap-2 xl:gap-5 p-5 lg:p-2 xl:p-5 h-[170px] xl:h-[235px] w-full rounded-[20px] bg-white backdrop-blur-[6px]'>
-                <div className='max-w-[100px] xl:min-w-[150px]'>
+                <div className='max-w-[100px] xl:min-w-[175px]'>
                     <DonutChart accounts={accounts} />
                 </div>
 

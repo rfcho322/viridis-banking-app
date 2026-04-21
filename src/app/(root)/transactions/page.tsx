@@ -48,7 +48,7 @@ const Transactions = async ({ searchParams: { id, page, search } }: SearchParamP
     return (
         <section className='no-scrollbar flex w-full flex-col gap-7 px-6 xl:px-10 py-5'>
             <div>
-                <div className='flex items-center justify-between mb-6'>
+                <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6'>
                     <TransactionsSearchBar />
                     <AccountSelectDropdown accounts={accountsData} selectedId={appwriteItemId} />
                 </div>

@@ -28,9 +28,9 @@ const AccountSelectDropdown = ({ accounts, selectedId }: { accounts: Account[], 
 
     return (
         <Select value={selectedId} onValueChange={handleChange}>
-            <SelectTrigger className='w-48 sm:w-64 rounded-full border-[#DFEAF2] bg-white text-sm text-[#343C6A] focus:ring-green-500'>
+            <SelectTrigger className='w-full sm:w-64 rounded-full border-[#DFEAF2] bg-white text-sm text-[#343C6A] focus:ring-green-500'>
                 <div className='flex items-center gap-2'>
-                    <CreditCard className='size-5 text-green-600 shrink-0' />
+                    <CreditCard className='size-5 text-green-500 shrink-0' />
                     <SelectValue placeholder='Select Account' />
                 </div>
             </SelectTrigger>
