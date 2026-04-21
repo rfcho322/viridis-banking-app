@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 import { topCategoryStyles } from "@/constants";
-import { cn } from "@/lib/utils";
+import { cn, formatAmount } from "@/lib/utils";
 
 import { Progress } from "./ui/progress";
 
@@ -33,10 +33,10 @@ const Category = ({ category }: CategoryProps) => {
                                 : category.name
                         }
                     </h2>
-                    <h3 className={cn("font-normal", count)}>{category.count}</h3>
+                    <h3 className={cn("font-bold", count)}>{formatAmount(category.amount)}</h3>
                 </div>
                 <Progress
-                    value={(category.count / category.totalCount) * 100}
+                    value={category.totalAmount ? (category.amount / category.totalAmount) * 100 : 0}
                     className={cn("h-2 w-full", progressBg)}
                     indicatorClassName={cn("h-2 w-full", indicator)}
                 />

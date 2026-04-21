@@ -6,20 +6,24 @@ const BankCardWidget = ({ user, banks }: BankCardWidgetProps) => {
 
             {banks?.length > 0 && (
                 <>
-                    <BankCard
-                        key={banks[0].$id}
-                        account={banks[0]}
-                        userName={`${user?.firstName} ${user?.lastName}`}
-                        showBalance={false}
-                    />
-
-                    {banks[1] && (
-                        <BankCardWhite
-                            key={banks[1].$id}
-                            account={banks[1]}
+                    <div className='flex-shrink-0 w-[260px] lg:w-[300px] xl:w-[340px]'>
+                        <BankCard
+                            key={banks[0].$id}
+                            account={banks[0]}
                             userName={`${user?.firstName} ${user?.lastName}`}
                             showBalance={false}
                         />
+                    </div>
+
+                    {banks[1] && (
+                        <div className='flex-shrink-0 w-[260px] lg:w-[300px] xl:w-[340px]'>
+                            <BankCardWhite
+                                key={banks[1].$id}
+                                account={banks[1]}
+                                userName={`${user?.firstName} ${user?.lastName}`}
+                                showBalance={false}
+                            />
+                        </div>
                     )}
                 </>
             )}

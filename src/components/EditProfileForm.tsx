@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { EditProfileFormSchema } from '@/lib/utils';
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -9,9 +9,7 @@ import { Form } from "@/components/ui/form"
 import EditProfileInput from './EditProfileInput';
 import { Loader2 } from 'lucide-react';
 import { editProfile } from '@/lib/actions/user.actions';
-import { useToast } from './ui/use-toast';
 import ToastMessage from './ToastMessage';
-
 
 type User = {
     userId: string;
@@ -28,8 +26,8 @@ type User = {
 const formSchema = EditProfileFormSchema()
 
 const EditProfileForm = ({ user }: { user: User }) => {
-    const { toast } = useToast()
     const [isLoading, setIsLoading] = useState(false);
+    const [saved, setSaved] = useState(false);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -46,10 +44,17 @@ const EditProfileForm = ({ user }: { user: User }) => {
         },
     })
 
-    // 2. Define a submit handler.
+    const { isDirty } = form.formState;
+
+    useEffect(() => {
+        const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+            if (isDirty) e.preventDefault();
+        };
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+    }, [isDirty]);
+
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
         setIsLoading(true)
         try {
             const userData = {
@@ -64,20 +69,17 @@ const EditProfileForm = ({ user }: { user: User }) => {
                 email: values.email,
             }
 
-            // console.log(values)
-            const response = await editProfile(user.userId, userData);
+            const response = await editProfile(userData);
 
             if (response.success) {
-                // CUSTOM TOAST MESSAGE
-                ToastMessage({
-                    type: "success",
-                    message: response.message
-                })
+                ToastMessage({ type: "success", message: response.message })
+                setSaved(true)
+                setTimeout(() => setSaved(false), 2000)
+                form.reset(values)
             }
 
         } catch (error) {
             console.log("Something went wrong", error)
-            // CUSTOM TOAST MESSAGE
             ToastMessage({
                 type: "destructive",
                 message: "Something went wrong while updating user, please try again."
@@ -89,7 +91,7 @@ const EditProfileForm = ({ user }: { user: User }) => {
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <div className='flex gap-7'>
                     <EditProfileInput
                         control={form.control}
@@ -101,7 +103,7 @@ const EditProfileForm = ({ user }: { user: User }) => {
                         control={form.control}
                         name='lastName'
                         label='Last Name'
-                        placeholder="Enter your first name"
+                        placeholder="Enter your last name"
                     />
                 </div>
                 <EditProfileInput
@@ -155,12 +157,12 @@ const EditProfileForm = ({ user }: { user: User }) => {
                 <div className="mt-5 flex w-full gap-3 py-5">
                     <Button
                         type="submit"
-                        disabled={isLoading}
-                        className="text-sm w-full sm:max-w-48 sm:ml-auto bg-green-500 font-semibold text-white shadow-form !important">
+                        disabled={isLoading || !isDirty}
+                        className="text-sm w-full sm:max-w-48 sm:ml-auto bg-green-500 font-semibold text-white shadow-form disabled:opacity-60">
                         {isLoading ? (
-                            <>
-                                <Loader2 size={20} className="animate-spin" /> &nbsp; Saving changes...
-                            </>
+                            <><Loader2 size={20} className="animate-spin" />&nbsp;Saving changes...</>
+                        ) : saved ? (
+                            "Saved!"
                         ) : (
                             "Save"
                         )}

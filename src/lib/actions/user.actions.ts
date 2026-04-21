@@ -3,7 +3,12 @@
 import { ID, Query } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite";
 import { cookies } from "next/headers";
-import { encryptId, extractCustomerIdFromUrl, parseStringify } from "../utils";
+import {
+  encryptId,
+  extractCustomerIdFromUrl,
+  parseStringify,
+  EditProfileFormSchema,
+} from "../utils";
 import {
   CountryCode,
   ProcessorTokenCreateRequest,
@@ -11,7 +16,7 @@ import {
   Products,
 } from "plaid";
 import { plaidClient } from "@/lib/plaid";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { addFundingSource, createDwollaCustomer } from "./dwolla.actions";
 
 const {
@@ -27,7 +32,7 @@ export const getUserInfo = async ({ userId }: getUserInfoProps) => {
     const user = await database.listDocuments(
       DATABASE_ID!,
       USER_COLLECTION_ID!,
-      [Query.equal("userId", [userId])]
+      [Query.equal("userId", [userId])],
     );
 
     return parseStringify(user.documents[0]);
@@ -43,7 +48,7 @@ export const getUserDocumentId = async (userId: string) => {
     const user = await database.listDocuments(
       DATABASE_ID!,
       USER_COLLECTION_ID!,
-      [Query.equal("userId", [userId])]
+      [Query.equal("userId", [userId])],
     );
 
     return parseStringify(user.documents[0].$id);
@@ -70,7 +75,7 @@ export const signIn = async ({ email, password }: signInProps) => {
   } catch (error) {
     console.error("Error", error);
     throw new Error(
-      "Invalid credentials. Please check the email and password."
+      "Invalid credentials. Please check the email and password.",
     );
   }
 };
@@ -88,7 +93,7 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
       ID.unique(),
       email,
       password,
-      `${firstName} ${lastName}`
+      `${firstName} ${lastName}`,
     );
 
     if (!newUserAccount) throw new Error("Error creating user");
@@ -111,7 +116,7 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
         userId: newUserAccount.$id,
         dwollaCustomerId,
         dwollaCustomerUrl,
-      }
+      },
     );
 
     const session = await account.createEmailPasswordSession(email, password);
@@ -129,17 +134,22 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
   }
 };
 
-export const editProfile = async (userId: string, userData: EditProfile) => {
+export const editProfile = async (userData: EditProfile) => {
   try {
+    const { account } = await createSessionClient();
+    const me = await account.get();
+
+    const parsed = EditProfileFormSchema().parse(userData);
+
     const { database } = await createAdminClient();
-    const documentId = await getUserDocumentId(userId);
+    const documentId = await getUserDocumentId(me.$id);
+
     await database.updateDocument(
       DATABASE_ID!,
       USER_COLLECTION_ID!,
       documentId,
-      userData
+      parsed,
     );
-    console.log("User updated successfully");
     return parseStringify({
       success: true,
       message: "User updated successfully",
@@ -180,7 +190,7 @@ export const createLinkToken = async (user: User) => {
         client_user_id: user.$id,
       },
       client_name: `${user.firstName} ${user.lastName}`,
-      products: ["auth"] as Products[],
+      products: ["auth", "transactions"] as Products[],
       language: "en",
       country_codes: ["US"] as CountryCode[],
     };
@@ -214,7 +224,7 @@ export const createBankAccount = async ({
         accessToken,
         fundingSourceUrl,
         shareableId,
-      }
+      },
     );
 
     return parseStringify(bankAccount);
@@ -248,9 +258,8 @@ export const exchangePublicToken = async ({
       processor: "dwolla" as ProcessorTokenCreateRequestProcessorEnum,
     };
 
-    const processorTokenResponse = await plaidClient.processorTokenCreate(
-      request
-    );
+    const processorTokenResponse =
+      await plaidClient.processorTokenCreate(request);
     const processorToken = processorTokenResponse.data.processor_token;
 
     // CREATE A FUNDING SOURCE URL FOR THE ACCOUNT USING THE DWOLLA CUSTOMER ID, PROCESSOR TOKEN AND BANK NAME
@@ -275,6 +284,9 @@ export const exchangePublicToken = async ({
 
     // REVALIDATE THE PATH TO REFLECT THE CHANGES
     revalidatePath("/");
+    // FIX 3: Bust the 'accounts' cache tag so getAccounts and getAccount
+    // return fresh data the next time they're called after a new bank is linked.
+    revalidateTag("accounts");
     // RETURN A SUCCESS MESSAGE
     return parseStringify({
       publicTokenExchange: "complete",
@@ -291,7 +303,7 @@ export const getBanks = async ({ userId }: getBanksProps) => {
     const banks = await database.listDocuments(
       DATABASE_ID!,
       BANK_COLLECTION_ID!,
-      [Query.equal("userId", [userId])]
+      [Query.equal("userId", [userId])],
     );
 
     return parseStringify(banks.documents);
@@ -307,7 +319,7 @@ export const getBank = async ({ documentId }: getBankProps) => {
     const bank = await database.listDocuments(
       DATABASE_ID!,
       BANK_COLLECTION_ID!,
-      [Query.equal("$id", [documentId])]
+      [Query.equal("$id", [documentId])],
     );
 
     return parseStringify(bank.documents[0]);
@@ -325,7 +337,7 @@ export const getBankByAccountId = async ({
     const bank = await database.listDocuments(
       DATABASE_ID!,
       BANK_COLLECTION_ID!,
-      [Query.equal("accountId", [accountId])]
+      [Query.equal("accountId", [accountId])],
     );
 
     if (bank.total !== 1) return null;

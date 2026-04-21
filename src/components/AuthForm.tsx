@@ -1,9 +1,8 @@
 'use client'
 import React, { useState } from 'react'
 import { Button } from "@/components/ui/button"
-import {
-    Form,
-} from "@/components/ui/form"
+import { Form } from "@/components/ui/form"
+import { Progress } from "@/components/ui/progress"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -15,12 +14,24 @@ import { useRouter } from 'next/navigation'
 import { signIn, signUp } from '@/lib/actions/user.actions'
 import PlaidButton from './PlaidButton'
 import Image from 'next/image'
+import { FieldPath } from 'react-hook-form'
+
+const STEPS: { label: string; fields: string[] }[] = [
+    { label: 'Personal Info', fields: ['firstName', 'lastName', 'dateOfBirth', 'ssn'] },
+    { label: 'Address',       fields: ['address1', 'city', 'state', 'postalCode'] },
+    { label: 'Your Account',  fields: ['email', 'password'] },
+]
 
 const AuthForm = ({ type }: { type: string }) => {
     const router = useRouter()
     const [user, setUser] = useState(null)
     const [errorMessage, setErrorMessage] = useState<string | null>(null)
     const [isLoading, setIsLoading] = useState(false)
+    const [step, setStep] = useState(1)
+
+    const isSignUp = type === 'sign-up'
+    const totalSteps = STEPS.length
+    const isLastStep = step === totalSteps
 
     const formSchema = authFormSchema(type)
 
@@ -40,12 +51,23 @@ const AuthForm = ({ type }: { type: string }) => {
         },
     })
 
+    const handleNext = async () => {
+        const fields = STEPS[step - 1].fields as FieldPath<z.infer<typeof formSchema>>[]
+        const valid = await form.trigger(fields)
+        if (valid) {
+            setErrorMessage(null)
+            setStep((s) => s + 1)
+        }
+    }
+
+    const handleBack = () => {
+        setErrorMessage(null)
+        setStep((s) => s - 1)
+    }
+
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
-        // console.log(data)
         setIsLoading(true)
         try {
-
-            // SIGN UP WITH Appwrite AND CREATE Plaid LINK TOKEN
             const userData = {
                 firstName: data.firstName!,
                 lastName: data.lastName!,
@@ -60,7 +82,7 @@ const AuthForm = ({ type }: { type: string }) => {
             }
 
             if (type === 'sign-up') {
-                const newUser = await signUp(userData);
+                const newUser = await signUp(userData)
                 setUser(newUser)
             }
 
@@ -69,12 +91,9 @@ const AuthForm = ({ type }: { type: string }) => {
                     email: data.email,
                     password: data.password
                 })
-
                 if (response) router.push('/')
             }
-
         } catch (error: any) {
-            // console.log(error)
             setErrorMessage((error as Error).message)
             setIsLoading(false)
         }
@@ -108,7 +127,6 @@ const AuthForm = ({ type }: { type: string }) => {
                                 ? 'Sign In'
                                 : 'Sign Up'
                         }
-
                         <p className='text-base font-normal text-gray-600'>
                             {user
                                 ? 'Link your account to get started'
@@ -118,117 +136,186 @@ const AuthForm = ({ type }: { type: string }) => {
                     </h1>
                 </div>
             </header>
+
             {user ? (
                 <div className='flex flex-col gap-4'>
-                    {/* PLAID BUTTON */}
                     <PlaidButton user={user} variant="primary" />
                 </div>
             ) : (
                 <>
+                    {isSignUp && (
+                        <div className='flex flex-col gap-2'>
+                            <div className='flex items-center justify-between'>
+                                <p className='text-sm font-medium text-[#343C6A]'>
+                                    {STEPS[step - 1].label}
+                                </p>
+                                <p className='text-xs text-[#718EBF]'>
+                                    Step {step} of {totalSteps}
+                                </p>
+                            </div>
+                            <Progress
+                                value={(step / totalSteps) * 100}
+                                className='h-1.5 bg-gray-100'
+                                indicatorClassName='bg-green-500'
+                            />
+                        </div>
+                    )}
+
                     <Form {...form}>
-                        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                            {errorMessage &&
-                                <p className='text-destructive'>{errorMessage}</p>
-                            }
-                            {type === 'sign-up' && (
+                        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
+                            {errorMessage && (
+                                <p className='text-destructive text-sm'>{errorMessage}</p>
+                            )}
+
+                            {isSignUp ? (
                                 <>
-                                    <div className='flex justify-between gap-4'>
-                                        <CustomInput
-                                            control={form.control}
-                                            name='firstName'
-                                            label='First Name'
-                                            placeholder="Enter your first name"
-                                        />
-                                        <CustomInput
-                                            control={form.control}
-                                            name='lastName'
-                                            label='Last Name'
-                                            placeholder="Enter your last name"
-                                        />
-                                    </div>
+                                    {step === 1 && (
+                                        <>
+                                            <div className='flex justify-between gap-4'>
+                                                <CustomInput
+                                                    control={form.control}
+                                                    name='firstName'
+                                                    label='First Name'
+                                                    placeholder="Enter your first name"
+                                                />
+                                                <CustomInput
+                                                    control={form.control}
+                                                    name='lastName'
+                                                    label='Last Name'
+                                                    placeholder="Enter your last name"
+                                                />
+                                            </div>
+                                            <div className='flex justify-between gap-4'>
+                                                <CustomInput
+                                                    control={form.control}
+                                                    name='dateOfBirth'
+                                                    label='Date of Birth'
+                                                    placeholder="YYYY-MM-DD"
+                                                />
+                                                <CustomInput
+                                                    control={form.control}
+                                                    name='ssn'
+                                                    label='SSN'
+                                                    placeholder="Example: 0000"
+                                                />
+                                            </div>
+                                        </>
+                                    )}
+
+                                    {step === 2 && (
+                                        <>
+                                            <CustomInput
+                                                control={form.control}
+                                                name='address1'
+                                                label='Address'
+                                                placeholder="Enter your specific address"
+                                            />
+                                            <CustomInput
+                                                control={form.control}
+                                                name='city'
+                                                label='City'
+                                                placeholder="Enter your city"
+                                            />
+                                            <div className='flex justify-between gap-4'>
+                                                <CustomInput
+                                                    control={form.control}
+                                                    name='state'
+                                                    label='State'
+                                                    placeholder="Example: NY"
+                                                />
+                                                <CustomInput
+                                                    control={form.control}
+                                                    name='postalCode'
+                                                    label='Postal Code'
+                                                    placeholder="Example: 00000"
+                                                />
+                                            </div>
+                                        </>
+                                    )}
+
+                                    {step === 3 && (
+                                        <>
+                                            <CustomInput
+                                                control={form.control}
+                                                name='email'
+                                                label='Email'
+                                                placeholder="Enter your email"
+                                            />
+                                            <CustomInput
+                                                control={form.control}
+                                                name='password'
+                                                label='Password'
+                                                placeholder="Enter your password"
+                                            />
+                                        </>
+                                    )}
+                                </>
+                            ) : (
+                                <>
                                     <CustomInput
                                         control={form.control}
-                                        name='address1'
-                                        label='Address'
-                                        placeholder="Enter your specific address"
+                                        name='email'
+                                        label='Email'
+                                        placeholder="Enter your email"
                                     />
                                     <CustomInput
                                         control={form.control}
-                                        name='city'
-                                        label='City'
-                                        placeholder="Enter your city"
+                                        name='password'
+                                        label='Password'
+                                        placeholder="Enter your password"
                                     />
-                                    <div className='flex justify-between gap-4'>
-                                        <CustomInput
-                                            control={form.control}
-                                            name='state'
-                                            label='State'
-                                            placeholder="Example: NY"
-                                        />
-                                        <CustomInput
-                                            control={form.control}
-                                            name='postalCode'
-                                            label='Postal Code'
-                                            placeholder="Example: 00000"
-                                        />
-                                    </div>
-                                    <div className='flex justify-between gap-4'>
-                                        <CustomInput
-                                            control={form.control}
-                                            name='dateOfBirth'
-                                            label='Date of Birth'
-                                            placeholder="YYYY-MM-DD"
-                                        />
-                                        <CustomInput
-                                            control={form.control}
-                                            name='ssn'
-                                            label='SSN'
-                                            placeholder="Example: 0000"
-                                        />
-                                    </div>
                                 </>
                             )}
-                            <CustomInput
-                                control={form.control}
-                                name='email'
-                                label='Email'
-                                placeholder="Enter your email"
-                            />
-                            <CustomInput
-                                control={form.control}
-                                name='password'
-                                label='Password'
-                                placeholder="Enter your password"
-                            />
-                            <div className='flex flex-col gap-4'>
-                                <Button
-                                    type="submit"
-                                    disabled={isLoading}
-                                    className='text-base rounded-lg font-semibold text-white shadow-form'
-                                >
-                                    {isLoading ? (
-                                        <>
-                                            <Loader2 size={20} className='animate-spin' /> &nbsp; Loading...
-                                        </>
-                                    ) : type === 'sign-in'
-                                        ? 'Sign In' : 'Sign Up'
-                                    }
-                                </Button>
+
+                            <div className='flex gap-3 pt-2'>
+                                {isSignUp && step > 1 && (
+                                    <Button
+                                        type='button'
+                                        variant='outline'
+                                        onClick={handleBack}
+                                        className='flex-1 rounded-lg border-gray-200 text-gray-600'
+                                    >
+                                        Back
+                                    </Button>
+                                )}
+
+                                {isSignUp && !isLastStep ? (
+                                    <Button
+                                        type='button'
+                                        onClick={handleNext}
+                                        className='flex-1 text-base rounded-lg font-semibold text-white shadow-form'
+                                    >
+                                        Next
+                                    </Button>
+                                ) : (
+                                    <Button
+                                        type='submit'
+                                        disabled={isLoading}
+                                        className='flex-1 text-base rounded-lg font-semibold text-white shadow-form'
+                                    >
+                                        {isLoading ? (
+                                            <>
+                                                <Loader2 size={20} className='animate-spin' /> &nbsp; Loading...
+                                            </>
+                                        ) : type === 'sign-in'
+                                            ? 'Sign In'
+                                            : 'Sign Up'
+                                        }
+                                    </Button>
+                                )}
                             </div>
                         </form>
                     </Form>
 
                     <footer className='flex justify-center gap-1'>
                         <p className='text-sm text-gray-600'>
-                            {
-                                type === 'sign-in'
-                                    ? "Don't have an account?"
-                                    : "Already have an account?"
+                            {type === 'sign-in'
+                                ? "Don't have an account?"
+                                : "Already have an account?"
                             }
                         </p>
                         <Link
-                            href={type === 'sign-in' ? '/sign-up'
-                                : '/sign-in'}
+                            href={type === 'sign-in' ? '/sign-up' : '/sign-in'}
                             className='text-sm cursor-pointer font-medium text-green-500'
                         >
                             {type === 'sign-in' ? 'Sign Up' : 'Sign In'}
@@ -236,7 +323,6 @@ const AuthForm = ({ type }: { type: string }) => {
                     </footer>
                 </>
             )}
-
         </section>
     )
 }

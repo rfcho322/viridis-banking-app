@@ -29,12 +29,15 @@ const EditProfileInput = ({ control, name, label, placeholder }: CustomInput) =>
                         <FormControl>
                             <Input
                                 placeholder={placeholder}
-                                disabled={name === "email" && true}
-                                className='text-base placeholder:text-base rounded-lg border border-gray-300 text-gray-900 placeholder:text-gray-500'
+                                disabled={name === "email"}
+                                className='text-base placeholder:text-base rounded-lg border border-gray-300 text-gray-900 placeholder:text-gray-500 disabled:cursor-not-allowed'
                                 type="text"
                                 {...field}
                             />
                         </FormControl>
+                        {name === 'email' && (
+                            <p className="text-xs text-gray-400">Email address cannot be changed.</p>
+                        )}
                         <FormMessage />
                     </div>
                 </div>

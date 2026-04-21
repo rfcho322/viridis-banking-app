@@ -37,16 +37,19 @@ const Sidebar = ({ user }: SidebarProps) => {
                         <Link
                             key={item.label}
                             href={item.route}
-                            className='flex items-center'
+                            aria-current={isActive ? 'page' : undefined}
+                            className={cn('flex items-center w-full rounded-md transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2', {
+                                'hover:bg-gray-100': !isActive,
+                            })}
                         >
-                            <div className='flex items-center gap-6 sm:pr-4'>
-                                <div className={cn('opacity-0 w-[6px] lg:h-[50px] xl:h-[60px] bg-green-500 rounded-r-lg', {
-                                    'opacity-100 transition-opacity duration-500': isActive
+                            <div className='flex items-center gap-6 sm:pr-40'>
+                                <div className={cn('opacity-0 w-[6px] lg:h-[50px] xl:h-[60px] bg-green-500 rounded-r-lg transition-opacity duration-500', {
+                                    'opacity-100': isActive
                                 })} />
                                 <div className='relative size-5 xl:size-6'>
-                                    <item.Component selected={pathName === item.route} />
+                                    <item.Component selected={isActive} />
                                 </div>
-                                <p className={cn('text-[#B1B1B1] font-medium text-base xl:text-lg', {
+                                <p className={cn('text-[#B1B1B1] font-medium text-base xl:text-lg whitespace-nowrap', {
                                     'text-green-500': isActive,
                                 })}>{item.label}</p>
                             </div>

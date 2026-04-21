@@ -33,7 +33,7 @@ const SettingsTab = ({ user }: { user: User }) => {
     }, [tab]);
 
     return (
-        <Tabs defaultValue={tab} onValueChange={setActiveTab}>
+        <Tabs value={activeTab} onValueChange={setActiveTab}>
             <TabsList className='custom-scrollbar flex gap-3 justify-start mb-6 !bg-transparent flex-nowrap'>
                 {tabItems.map((tabItems, index) => (
                     <TabsTrigger
@@ -48,15 +48,12 @@ const SettingsTab = ({ user }: { user: User }) => {
                     </TabsTrigger>
                 ))}
             </TabsList>
-            {tabItems.map((tabItem, index) => (
-                <TabsContent
-                    key={index}
-                    value={tabItem.label}
-                >
-                    {activeTab === "Edit Profile" && <EditProfileForm user={user} />}
-                    {activeTab === "Security" && <ChangePasswordForm />}
-                </TabsContent>
-            ))}
+            <TabsContent value="Edit Profile">
+                <EditProfileForm user={user} />
+            </TabsContent>
+            <TabsContent value="Security">
+                <ChangePasswordForm />
+            </TabsContent>
         </Tabs>
     )
 }

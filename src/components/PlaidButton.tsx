@@ -29,8 +29,12 @@ const PlaidButton = ({ user, variant }: PlaidButtonProps) => {
             user,
         })
 
+        // router.refresh() busts the client-side Router Cache so the dashboard
+        // re-requests fresh data from the server instead of serving the stale
+        // cached render that doesn't have the new bank card yet.
+        router.refresh()
         router.push('/')
-    }, [user])
+    }, [user, router])
 
     const config: PlaidLinkOptions = {
         token,

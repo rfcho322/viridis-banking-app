@@ -1,21 +1,15 @@
 import React from 'react'
 import TransactionsTable from '@/components/TransactionsTable'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import BankTabItem from './BankTabItem'
 import Link from 'next/link'
 
 const RecentTransactions = ({
-    accounts,
     transactions = [],
-    appwriteItemId,
     page = 1,
 }: RecentTransactionsProps) => {
 
-    const rowsPerPage = 5
-
+    const rowsPerPage = 7
     const indexOfLastTransaction = page * rowsPerPage
     const indexOfFirstTransaction = indexOfLastTransaction - rowsPerPage
-
     const currentTransaction = transactions.slice(indexOfFirstTransaction, indexOfLastTransaction)
 
     return (
@@ -28,38 +22,16 @@ const RecentTransactions = ({
                     See All
                 </Link>
             </div>
-            <div>
-                <Tabs defaultValue={appwriteItemId} className="">
-                    <TabsList className='custom-scrollbar flex gap-3 justify-start mb-6 !bg-transparent flex-nowrap'>
-                        {accounts.map((account: Account) => (
-                            <TabsTrigger
-                                key={account.id}
-                                value={account.appwriteItemId}
-                            >
-                                <BankTabItem
-                                    key={account.id}
-                                    account={account}
-                                    appwriteItemId={appwriteItemId}
-                                />
-                            </TabsTrigger>
-                        ))}
-                    </TabsList>
-                    {accounts.map((account: Account) => (
-                        <TabsContent
-                            key={account.id}
-                            value={account.appwriteItemId}
-                            className='space-y-4'
-                        >
-                            <div className='relative w-full rounded-[20px] bg-white backdrop-blur-[6px] px-6 py-4'>
-                                <TransactionsTable
-                                    transactions={currentTransaction}
-                                />
-                            </div>
-                        </TabsContent>
-                    ))}
-                </Tabs>
-
-            </div >
+            <div className='relative w-full rounded-[20px] bg-white backdrop-blur-[6px] px-6 py-4'>
+                {currentTransaction.length > 0 ? (
+                    <TransactionsTable transactions={currentTransaction} />
+                ) : (
+                    <div className='flex flex-col items-center justify-center py-10 text-center'>
+                        <p className='text-base font-medium text-[#344054]'>No transactions yet</p>
+                        <p className='mt-1 text-sm text-[#718EBF]'>Linked accounts with activity will show here.</p>
+                    </div>
+                )}
+            </div>
         </>
     )
 }

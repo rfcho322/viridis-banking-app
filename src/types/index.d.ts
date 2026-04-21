@@ -87,11 +87,11 @@ declare type Transaction = {
   category: string;
   date: string;
   image: string;
-  type: string;
   $createdAt: string;
   channel: string;
   senderBankId: string;
   receiverBankId: string;
+  accountName?: string;
 };
 
 declare type Bank = {
@@ -116,7 +116,9 @@ declare type Category = "Food and Drink" | "Travel" | "Transfer";
 declare type CategoryCount = {
   name: string;
   count: number;
+  amount: number;
   totalCount: number;
+  totalAmount: number;
 };
 
 declare type Receiver = {
@@ -243,14 +245,18 @@ declare interface MobileNavbarProps {
   user: User;
 }
 
+declare interface NotificationBankGroup {
+  accountName: string;
+  appwriteItemId: string;
+  transactions: Transaction[];
+}
+
 declare interface NavbarProps {
   user: User;
 }
 
 declare interface RecentTransactionsProps {
-  accounts: Account[];
   transactions: Transaction[];
-  appwriteItemId: string;
   page: number;
 }
 

@@ -7,26 +7,37 @@ import RecentTransactions from '@/components/RecentTransactions'
 import { countTransactionCategories } from '@/lib/utils'
 import Category from '@/components/Category'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 
 
-const Dashboard = async ({ searchParams: { id, page } }: SearchParamProps) => {
+const Dashboard = async ({ searchParams: { page } }: SearchParamProps) => {
     const currentPage = Number(page as string) || 1
     const loggedIn = await getLoggedInUser()
+
+    if (!loggedIn) redirect('/sign-in')
+
     const accounts = await getAccounts({ userId: loggedIn.$id })
 
     if (!accounts) return
 
     const accountsData = accounts?.data
-    const appwriteItemId = (id as string) || accountsData[0]?.appwriteItemId
 
-    const account = await getAccount({ appwriteItemId })
+    // Fetch all accounts' transactions in parallel
+    const allAccountsData = await Promise.all(
+        accountsData.map((acc: Account) => getAccount({ appwriteItemId: acc.appwriteItemId }))
+    )
 
-    const categories: CategoryCount[] = countTransactionCategories(account?.transactions)
+    // Combine all transactions with their account name, sorted most-recent first
+    const allTransactions: Transaction[] = allAccountsData
+        .flatMap((accountData, i) =>
+            (accountData?.transactions || []).map((t: Transaction) => ({
+                ...t,
+                accountName: accountsData[i].name,
+            }))
+        )
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
-    // console.log({
-    //     accountsData,
-    //     account
-    // })
+    const categories: CategoryCount[] = countTransactionCategories(allTransactions)
 
     return (
         <section className='no-scrollbar flex w-full flex-row'>
@@ -39,7 +50,6 @@ const Dashboard = async ({ searchParams: { id, page } }: SearchParamProps) => {
                                 href="/credit-cards"
                                 className='text-[17px] font-semibold no-underline'
                             >
-                                {/* <p className='text-[17px] font-semibold'>See All</p> */}
                                 See All
                             </Link>
                         </div>
@@ -59,19 +69,17 @@ const Dashboard = async ({ searchParams: { id, page } }: SearchParamProps) => {
                 <div className='grid grid-cols-3 gap-7'>
                     <div className='col-span-3 md:col-span-2 flex flex-col gap-5'>
                         <RecentTransactions
-                            accounts={accountsData}
-                            transactions={account?.transactions}
-                            appwriteItemId={appwriteItemId}
+                            transactions={allTransactions}
                             page={currentPage}
                         />
                     </div>
 
                     <div className='col-span-3 md:col-span-1 flex flex-col gap-5'>
                         <div className='flex items-center justify-between text-[#343C6A]'>
-                            <p className='text-[22px] font-semibold'>Top Categories</p>
+                            <p className='text-[22px] font-semibold'>Spending by Category</p>
                         </div>
                         <div className='flex flex-col min-h-[170px] px-2 py-2 xl:min-h-[235px] w-full rounded-[20px] bg-white backdrop-blur-[6px]'>
-                            {categories.map((category, index) => (
+                            {categories.map((category) => (
                                 <Category
                                     key={category.name}
                                     category={category}

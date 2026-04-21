@@ -8,8 +8,13 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { transactionCategoryStyles } from "@/constants"
-import { cn, formatAmount, formatDateTime, getTransactionStatus, removeSpecialCharacters } from "@/lib/utils"
+import { cn, formatAmount, formatDateTime, removeSpecialCharacters } from "@/lib/utils"
 import { usePathname } from "next/navigation"
+
+const statusLabel: Record<string, string> = {
+    Processing: 'Pending',
+    Success: 'Completed',
+}
 
 const CategoryBadge = ({ category }: CategoryBadgeProps) => {
     const {
@@ -24,10 +29,11 @@ const CategoryBadge = ({ category }: CategoryBadgeProps) => {
             <div className={cn('size-2 rounded-full', backgroundColor)} />
             <p className={cn('text-base font-medium first-letter:capitalize lowercase', textColor)}>
                 {
-                    category === 'FOOD_AND_DRINK' ? 'FOOD AND DRINK'
+                    statusLabel[category] ??
+                    (category === 'FOOD_AND_DRINK' ? 'FOOD AND DRINK'
                         : category === 'LOAN_PAYMENTS' ? 'LOAN PAYMENTS'
                             : category === 'Transfer' ? 'TRANSFER'
-                                : category
+                                : category)
                 }
             </p>
         </div>
@@ -47,6 +53,11 @@ const TransactionsTable = ({ transactions }: TransactionTableProps) => {
                     <TableHead className="text-base text-[#718EBF]">Amount</TableHead>
                     <TableHead className="text-base text-[#718EBF]">Status</TableHead>
                     <TableHead className={cn("text-base text-[#718EBF]", {
+                        'hidden': !isDashboard
+                    })}>
+                        Account
+                    </TableHead>
+                    <TableHead className={cn("text-base text-[#718EBF]", {
                         'hidden': isDashboard
                     })}>
                         Date
@@ -61,7 +72,7 @@ const TransactionsTable = ({ transactions }: TransactionTableProps) => {
             </TableHeader>
             <TableBody>
                 {transactions.map((t: Transaction) => {
-                    const status = getTransactionStatus(new Date(t.date))
+                    const status = t.pending ? 'Processing' : 'Success'
                     const amount = formatAmount(t.amount)
 
                     const isDebit = t.type === 'debit'
@@ -89,6 +100,16 @@ const TransactionsTable = ({ transactions }: TransactionTableProps) => {
 
                             <TableCell className='pl-2 pr-10'>
                                 <CategoryBadge category={status} />
+                            </TableCell>
+
+                            <TableCell className={cn('pl-2 pr-10', {
+                                'hidden': !isDashboard
+                            })}>
+                                {t.accountName && (
+                                    <span className='inline-flex items-center rounded-full bg-green-50 px-2.5 py-0.5 text-xs font-medium text-green-700 border border-green-200 whitespace-nowrap'>
+                                        {t.accountName}
+                                    </span>
+                                )}
                             </TableCell>
 
                             <TableCell className={cn('min-w-32 text-base pl-2 pr-10', {
